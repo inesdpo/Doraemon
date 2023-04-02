@@ -25,7 +25,7 @@ public class RaycastDragger : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 20))
             {
                 DraggingObject = hit.transform;
-                DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
+                DraggingObject.position = ray.GetPoint(ray.origin.z * - 1);
                 IsDragging = true;
             }
         }
@@ -35,6 +35,18 @@ public class RaycastDragger : MonoBehaviour
             if (IsDragging)
             {
                 DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
+                
+
+                //new ray starting from the dragging objects to the plane
+
+                Ray gridRay = new Ray(DraggingObject.transform.position, Input.mousePosition);
+                
+                if (Physics.Raycast(gridRay, out hit, 20))
+                {   
+                    //if it hit one of the squares, it snaps to that position
+                    DraggingObject.position = hit.transform.position;
+                    //hit.transform.position = ray.GetPoint(ray.origin.z * -1); 
+                }
             }
         }
 

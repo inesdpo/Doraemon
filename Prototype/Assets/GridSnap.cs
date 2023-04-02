@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GridSnap : MonoBehaviour
 {   
-    //[SerialiedField] public GameObject object ;
     public Vector3 boxPos =  Vector3.zero; 
  
     float width = 0.0f;
@@ -25,7 +24,6 @@ public class GridSnap : MonoBehaviour
     void Start()
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
-
 
         boxPos = transform.position;
 
@@ -53,7 +51,7 @@ public class GridSnap : MonoBehaviour
 
 
                 GameObject mySphere = Instantiate(spherePrefab, gridSnapPoint, new Quaternion());
-                mySphere.transform.position = gridSnapPoint;
+                mySphere.transform.localScale = new Vector3(gridUnitWidth * 0.9f, 0.1f, gridUnitHeight * 0.9f);
                 //Debug.Log(mySphere.transform);
                 //mySphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             }
