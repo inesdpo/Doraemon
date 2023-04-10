@@ -43,10 +43,9 @@ public class RaycastDragger : MonoBehaviour
                 
                 if (Physics.Raycast(gridRay, out hit, 20))
                 {   
-                    //if it hit one of the squares, it snaps to that position
+                    //if it hits one of the squares, it snaps to that position
                     DraggingObject.position = hit.transform.position;
-                    //hit.transform.position = ray.GetPoint(ray.origin.z * -1); 
-                }
+                    
             }
         }
 

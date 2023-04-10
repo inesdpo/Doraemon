@@ -2412,7 +2412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxPos: {x: 0, y: 0, z: 0}
-  spherePrefab: {fileID: 3133612084871442470, guid: a1f5e15441de66c4ea6024f5d94701b3, type: 3}
+  spherePrefab: {fileID: 1865490018769885171, guid: a33ea18b83a2cdd48af77a5fd43b053f, type: 3}
 --- !u!23 &646049653
 MeshRenderer:
   m_ObjectHideFlags: 0
