@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2687699856061465810}
   - component: {fileID: 2390298537562340829}
   - component: {fileID: 5080956839843036229}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grid Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865490018769885171}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - gridCube
+  - Draggable Object
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - RenderTexture
   - Water
   - UI
-  - 
-  - 
+  - Draggable Objects
+  - Grid Plane
   - 
   - 
   - 

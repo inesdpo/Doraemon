@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 23335785}
   - component: {fileID: 23335784}
   - component: {fileID: 23335783}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Draggable Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2392,7 +2392,7 @@ GameObject:
   - component: {fileID: 646049653}
   - component: {fileID: 646049651}
   - component: {fileID: 646049656}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Box
   m_Icon: {fileID: 0}
@@ -3567,7 +3567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1048382993}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DraggableObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3745,9 +3745,9 @@ GameObject:
   - component: {fileID: 1102685994}
   - component: {fileID: 1102685993}
   - component: {fileID: 1102685992}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Draggable Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4411,9 +4411,9 @@ GameObject:
   - component: {fileID: 1570627162}
   - component: {fileID: 1570627161}
   - component: {fileID: 1570627164}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Draggable Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4509,6 +4509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 963194227}
+  ObjectsInitialPosition: []
 --- !u!1 &1620365696 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5973536833380954781, guid: bd4a5ccb92118d14abc14abfefd9101f, type: 3}
