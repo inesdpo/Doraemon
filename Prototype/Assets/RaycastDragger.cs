@@ -9,7 +9,9 @@ public class RaycastDragger : MonoBehaviour
     private Transform DraggingObject = null;
     public Camera camera;
     int layerMask;
+    public List<GameObject> Objects = new List<GameObject>();
     public List<Vector3> ObjectsInitialPosition = new List<Vector3>();
+    //public AnimationCurve easeCurve;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +19,10 @@ public class RaycastDragger : MonoBehaviour
 
         var objects = GameObject.FindGameObjectsWithTag("Draggable Object");
 
-        Debug.Log(objects[0].transform.position);
 
         foreach (var obj in objects)
         {
+            Objects.Add(obj);
             ObjectsInitialPosition.Add(obj.transform.position);
         }
 
@@ -63,22 +65,21 @@ public class RaycastDragger : MonoBehaviour
                     //if it hits one of the squares, it snaps to that position
                     DraggingObject.position = hit.transform.position;
 
-                } else
+                }
+                else
                 {
-                    
+                    //DraggingObject.position = Vector3.Lerp(DraggingObject.position, ObjectsInitialPosition[0], easeCurve);
                 }
             }        
 
 
-            //objectpos = campos + ( rayforward * distancefromscreen )
-
-            // move the object to this position
+            
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             IsDragging = false;
-            //DraggingObject = null;
+            DraggingObject = null;
         }
     }
 
