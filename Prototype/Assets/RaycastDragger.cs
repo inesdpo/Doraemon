@@ -54,22 +54,7 @@ public class RaycastDragger : MonoBehaviour
                 DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
 
 
-                //new ray starting from the dragging objects to the plane
-
-                layerMask = 1 << LayerMask.NameToLayer("Grid Plane");
-
-                Ray gridRay = camera.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(gridRay, out hit, 100, layerMask))
-                {
-                    //if it hits one of the squares, it snaps to that position
-                    DraggingObject.position = hit.transform.position;
-
-                }
-                else
-                {
-                    //DraggingObject.position = Vector3.Lerp(DraggingObject.position, ObjectsInitialPosition[0], easeCurve);
-                }
+               
             }        
 
 
@@ -79,6 +64,26 @@ public class RaycastDragger : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             IsDragging = false;
+            
+
+            //new ray starting from the dragging objects to the plane
+
+            layerMask = 1 << LayerMask.NameToLayer("Grid Plane");
+
+            Ray gridRay = camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(gridRay, out hit, 100, layerMask))
+            {
+                //if it hits one of the squares, it snaps to that position
+                DraggingObject.position = hit.transform.position;
+
+            }
+            else
+            {
+                Debug.Log("disappear");
+                //DraggingObject.position = Vector3.Lerp(DraggingObject.position, ObjectsInitialPosition[0], easeCurve);
+            }
+
             DraggingObject = null;
         }
     }
