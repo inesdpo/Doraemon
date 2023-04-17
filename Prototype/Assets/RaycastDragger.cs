@@ -6,32 +6,28 @@ using System.Collections.Generic;
 public class RaycastDragger : MonoBehaviour
 {
     private bool IsDragging = false;
+    private bool IsSnapping = false;
+    private float t = 0.0f;
+    private Vector3 GoalPosition = Vector3.zero;
+    private Vector3 LetGoPosition = Vector3.zero;
     private Transform DraggingObject = null;
+    private Vector3 InitialPosition = Vector3.zero;
     public Camera camera;
     int layerMask;
-    public List<GameObject> Objects = new List<GameObject>();
-    public List<Vector3> ObjectsInitialPosition = new List<Vector3>();
-    //public AnimationCurve easeCurve;
+    public AnimationCurve easeCurve;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        var objects = GameObject.FindGameObjectsWithTag("Draggable Object");
-
-
-        foreach (var obj in objects)
-        {
-            Objects.Add(obj);
-            ObjectsInitialPosition.Add(obj.transform.position);
-        }
-
+        InitialPosition = gameObject.transform.position; 
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
@@ -41,27 +37,39 @@ public class RaycastDragger : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100, layerMask))
             {
-                DraggingObject = hit.transform;
-                DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
-                IsDragging = true;
+                if(hit.collider.gameObject == gameObject)
+                {
+                    DraggingObject = hit.transform;
+                    DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
+                    IsDragging = true;
+                }
             } 
         }
 
-        if (Input.GetMouseButton(0))
+        
+        if (IsDragging)
         {
-            if (IsDragging)
+            DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
+        }
+
+        if (IsSnapping)
+        {
+            t += 0.34f;
+
+            DraggingObject.position = Vector3.Lerp(LetGoPosition, GoalPosition, t);
+
+            if (t >= 1)
             {
-                DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
-
-
-               
-            }        
-
+                t = 0;
+                IsSnapping = false;
+                DraggingObject = null;
+            }
 
             
         }
 
-        if (Input.GetMouseButtonUp(0))
+
+        if (Input.GetMouseButtonUp(0) && IsDragging)
         {
             IsDragging = false;
             
@@ -75,16 +83,20 @@ public class RaycastDragger : MonoBehaviour
             if (Physics.Raycast(gridRay, out hit, 100, layerMask))
             {
                 //if it hits one of the squares, it snaps to that position
-                DraggingObject.position = hit.transform.position;
+                IsSnapping = true;
 
+                LetGoPosition = DraggingObject.position;
+                GoalPosition = hit.transform.position;
+                
+                 
             }
             else
             {
-                Debug.Log("disappear");
-                //DraggingObject.position = Vector3.Lerp(DraggingObject.position, ObjectsInitialPosition[0], easeCurve);
+                //DraggingObject.gameObject.SetActive(false);
+                IsSnapping = true;
+                LetGoPosition = DraggingObject.position;
+                GoalPosition = InitialPosition;
             }
-
-            DraggingObject = null;
         }
     }
 
