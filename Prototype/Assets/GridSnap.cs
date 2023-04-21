@@ -18,7 +18,7 @@ public class GridSnap : MonoBehaviour
 
     public GameObject spherePrefab;
 
-
+        
     // Start is called before the first frame update
     void Start()
     { //Vector3.Lerp(Start position, emdpositio, time (0 to 1);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class RaycastDragger : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class RaycastDragger : MonoBehaviour
     public Camera camera;
     int layerMask;
     public AnimationCurve easeCurve;
+
+    public TextMeshProUGUI notificationText;
+    public GameObject notificationBox;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +46,7 @@ public class RaycastDragger : MonoBehaviour
                     DraggingObject = hit.transform;
                     DraggingObject.position = ray.GetPoint(ray.origin.z * -1);
                     IsDragging = true;
+                    notificationText.SetText("Two fingers to rotate");
                 }
             } 
         }
@@ -87,8 +92,8 @@ public class RaycastDragger : MonoBehaviour
 
                 LetGoPosition = DraggingObject.position;
                 GoalPosition = hit.transform.position;
-                
-                 
+
+                notificationBox.SetActive(false);
             }
             else
             {
@@ -96,6 +101,8 @@ public class RaycastDragger : MonoBehaviour
                 IsSnapping = true;
                 LetGoPosition = DraggingObject.position;
                 GoalPosition = InitialPosition;
+
+                notificationText.SetText("Drag object with finger");
             }
         }
     }
