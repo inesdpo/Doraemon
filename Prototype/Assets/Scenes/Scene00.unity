@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToDeactivate: {fileID: 519380237}
   objectToActivate1: {fileID: 1048382992}
-  objectToActivate2: {fileID: 646049650}
+  objectToActivate2: {fileID: 793467354}
 --- !u!1 &36738363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2303,7 +2303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &646049651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2696,7 +2696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &793467355
 Transform:
   m_ObjectHideFlags: 0
@@ -3763,7 +3763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1061715558
 BoxCollider:
   m_ObjectHideFlags: 0
