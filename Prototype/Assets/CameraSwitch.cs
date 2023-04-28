@@ -5,21 +5,26 @@ using UnityEngine;
 
 public class CameraSwitch : MonoBehaviour
 {
+    public GameObject camera1;
+    public GameObject camera2;
+
     // Start is called before the first frame update
     void Start()
     {
         // Disable the second camera
-        camera2.enabled = false;
+        camera2.SetActive(false);
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchCamera();
+        }
     }
-    public Camera camera1;
-    public Camera camera2;
-    public void SwichCamera()
+
+    public void SwitchCamera()
     {
-        if (camera1.enabled)
+        if (camera1.activeSelf)
         {
             camera1.gameObject.SetActive(false);
             camera2.gameObject.SetActive(true);
