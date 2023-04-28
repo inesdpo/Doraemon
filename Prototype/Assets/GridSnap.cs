@@ -34,19 +34,20 @@ public class GridSnap : MonoBehaviour
         topLeftCorner = new Vector3( boxPos.x - width/2.0f , boxPos.y , boxPos.z - height/2.0f);
 
         gridUnitWidth = width / 5.0f;
-        gridUnitHeight= height / 8.0f;
+        gridUnitHeight= height / 6.0f;
 
         gridUnitCenter = new Vector3( topLeftCorner.x + gridUnitWidth/2.0f , topLeftCorner.y , topLeftCorner.z + gridUnitHeight/2.0f );
 
 
         for(int x = 0; x < 5; x++) 
         {
-            for(int z = 0; z < 8; z++) 
+            for(int z = 0; z < 6; z++) 
             {
                 Vector3 gridSnapPoint = new Vector3(gridUnitCenter.x + x * gridUnitWidth , gridUnitCenter.y , gridUnitCenter.z + z * gridUnitHeight);
 
                 GameObject gridUnit = Instantiate(spherePrefab, gridSnapPoint, new Quaternion());
-                gridUnit.transform.localScale = new Vector3(gridUnitWidth, 0.1f, gridUnitHeight);
+                gridUnit.transform.localScale = new Vector3(gridUnitWidth * 0.95f, 0.001f, gridUnitHeight * 0.95f);
+
 
             }
         }
