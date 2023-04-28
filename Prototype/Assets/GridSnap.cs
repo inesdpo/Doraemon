@@ -33,15 +33,15 @@ public class GridSnap : MonoBehaviour
         
         topLeftCorner = new Vector3( boxPos.x - width/2.0f , boxPos.y , boxPos.z - height/2.0f);
 
-        gridUnitWidth = width / 5.0f;
-        gridUnitHeight= height / 6.0f;
+        gridUnitWidth = width / 10.0f;
+        gridUnitHeight= height / 13.0f;
 
         gridUnitCenter = new Vector3( topLeftCorner.x + gridUnitWidth/2.0f , topLeftCorner.y , topLeftCorner.z + gridUnitHeight/2.0f );
 
 
-        for(int x = 0; x < 5; x++) 
+        for(int x = 0; x < 10; x++) 
         {
-            for(int z = 0; z < 6; z++) 
+            for(int z = 0; z < 13; z++) 
             {
                 Vector3 gridSnapPoint = new Vector3(gridUnitCenter.x + x * gridUnitWidth , gridUnitCenter.y , gridUnitCenter.z + z * gridUnitHeight);
 
