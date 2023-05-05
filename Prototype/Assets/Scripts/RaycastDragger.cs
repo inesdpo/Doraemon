@@ -72,7 +72,7 @@ public class RaycastDragger : MonoBehaviour
 
             if (Physics.Raycast(gridRay, out hit, 100, layerMask))
             {   
-                DraggingObject.parent.transform.position = hit.transform.position + new Vector3(0, 0.02f, 0);
+                DraggingObject.parent.transform.position = hit.transform.position + new Vector3(0, 0.05f, 0);
             };
         }
 
@@ -118,27 +118,40 @@ public class RaycastDragger : MonoBehaviour
                 {
                     layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
 
-                    Ray checkSpaceRayMin = new Ray((objectMin + new Vector3(0.1f, 0, 0.1f)), (objectMin + new Vector3(0.1f, -2, 0.1f)));
-                    Ray checkSpaceRayMax = new Ray((objectMax - new Vector3(0.1f, 0, 0.1f)), (objectMin - new Vector3(0.1f, 2, 0.1f)));
+                    Debug.Log("I'm inside the box bouds!");
 
-                    Debug.DrawRay((objectMin + new Vector3(0.1f, 0, 0.1f)), (objectMin + new Vector3(0.1f, -2, 0.1f)), Color.green);
-                    Debug.DrawRay((objectMax - new Vector3(0.1f, 0, 0.1f)), (objectMin - new Vector3(0.1f, 2, 0.1f)), Color.green);
+                    RaycastHit hitObject;
 
-                    //if (Physics.Raycast(checkSpaceRayMin, 100, layerMask) || Physics.Raycast(checkSpaceRayMax, 100, layerMask)) {
-                    //    return; 
-                    //};
+                    Vector3 extendsScaled = new Vector3
+                        (
+                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x,
+                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y,
+                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z
+                        );
 
+                    
+                    
+                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
+                    {
+                        Debug.Log("There is no object underneath me");
 
-                    //Physics.BoxCast()
+                        IsSnapping = true;
+
+                        LetGoPosition = DraggingObject.position;
+                        GoalPosition = hit.transform.position;
+
+                        Debug.Log("I'm snapping to the grid");
+
+                        notificationBox.SetActive(false);
+                        return;
+
+                    };
+
+                    
+                                        
 
                     //if it hits one of the squares, it snaps to that position
-                    IsSnapping = true;
-
-                    LetGoPosition = DraggingObject.position;
-                    GoalPosition = hit.transform.position;
-
-                    notificationBox.SetActive(false);
-                    return;
+                    
                 }
 
 
@@ -149,8 +162,10 @@ public class RaycastDragger : MonoBehaviour
                 LetGoPosition = DraggingObject.position;
                 GoalPosition = InitialPosition;
 
-                //notificationText.SetText("Drag object with finger");
-            
+                Debug.Log("I'm snapping back to my original position");
+
+            //notificationText.SetText("Drag object with finger");
+
         }
     }
 
