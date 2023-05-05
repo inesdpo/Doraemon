@@ -8,7 +8,10 @@ public class Box : MonoBehaviour
     int layerMask;
 
     public GameObject notificationBox;
+    public GameObject buttons;
     public bool boxClosed = true;
+
+    public GameObject plane;
 
     public GameObject[] draggableObjects;
 
@@ -34,14 +37,18 @@ public class Box : MonoBehaviour
                 {
                     Debug.Log("Open Box");
                     notificationBox.SetActive(true);
+                    buttons.SetActive(true);
                     boxClosed = false;
+                    plane.SetActive(true);
 
                     foreach (var obj in draggableObjects)
                     {
                         obj.SetActive(true);
                     }
                 }
+                
             }
+           
         }
 
     }

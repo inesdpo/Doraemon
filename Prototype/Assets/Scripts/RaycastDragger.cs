@@ -56,7 +56,7 @@ public class RaycastDragger : MonoBehaviour
                     DraggingObject = hit.transform;
                     IsDragging = true;
                     notificationText.SetText("Two fingers to rotate");
-                };
+                }
             }
 
             
