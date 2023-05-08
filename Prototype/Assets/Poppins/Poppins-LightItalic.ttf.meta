@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 3bb3f88ad5364f54a8fc897fb5b9eea1
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Poppins Light
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7465f14b43676764ab205fe17832c38d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

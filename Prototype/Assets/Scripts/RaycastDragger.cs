@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+
 
 public class RaycastDragger : MonoBehaviour
 {
@@ -28,6 +30,8 @@ public class RaycastDragger : MonoBehaviour
 
     public TextMeshProUGUI notificationText;
     public GameObject notificationBox;
+    public Image imageComponent;
+    public Sprite spriteToChange;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +60,7 @@ public class RaycastDragger : MonoBehaviour
                     DraggingObject = hit.transform;
                     IsDragging = true;
                     notificationText.SetText("Two fingers to rotate");
+                    imageComponent.sprite = spriteToChange;
                 }
             }
 

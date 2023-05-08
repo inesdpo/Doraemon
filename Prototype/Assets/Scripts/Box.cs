@@ -11,6 +11,8 @@ public class Box : MonoBehaviour
     public GameObject buttons;
     public bool boxClosed = true;
 
+    //public GameObject newIcon;
+
     public GameObject plane;
 
     public GameObject[] draggableObjects;
@@ -26,6 +28,7 @@ public class Box : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -40,6 +43,8 @@ public class Box : MonoBehaviour
                     buttons.SetActive(true);
                     boxClosed = false;
                     plane.SetActive(true);
+                    //newIcon.SetActive(false);
+
 
                     foreach (var obj in draggableObjects)
                     {
