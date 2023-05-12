@@ -77,7 +77,7 @@ public class RaycastDragger : MonoBehaviour
         if (IsDragging)
         {
 
-            rotationT += 0.01f;
+            rotationT += 0.25f;
             if (rotationT >= 1) { rotationT = 1.0f; };
 
             animationTime = easeCurve.Evaluate(rotationT);
@@ -99,7 +99,7 @@ public class RaycastDragger : MonoBehaviour
 
         if (IsSnapping)
         {
-            t += 0.01f;
+            t += 0.25f;
 
             animationTime = easeCurve.Evaluate(t);
 

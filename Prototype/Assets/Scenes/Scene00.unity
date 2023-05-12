@@ -1655,7 +1655,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drag and drop item
+  m_text: 'tap box
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5628,8 +5630,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 963194227}
   notificationBox: {fileID: 804062790}
+  notificationText: {fileID: 404344013}
   buttons: {fileID: 1314385414}
   boxClosed: 1
+  imageComponent: {fileID: 1621266296}
+  spriteToChange: {fileID: 21300000, guid: 085c8517681356b42b62c3f235f833c9, type: 3}
   plane: {fileID: 646049650}
   draggableObjects:
   - {fileID: 793001535}
@@ -6860,7 +6865,7 @@ GameObject:
   - component: {fileID: 1621266297}
   - component: {fileID: 1621266296}
   m_Layer: 5
-  m_Name: Drag icon
+  m_Name: Touch Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6906,7 +6911,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 085c8517681356b42b62c3f235f833c9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8044f37faff345b4982c220469091527, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Box : MonoBehaviour
 {
@@ -8,8 +10,11 @@ public class Box : MonoBehaviour
     int layerMask;
 
     public GameObject notificationBox;
+    public TextMeshProUGUI notificationText;
     public GameObject buttons;
     public bool boxClosed = true;
+    public Image imageComponent;
+    public Sprite spriteToChange;
 
     //public GameObject newIcon;
 
@@ -28,7 +33,10 @@ public class Box : MonoBehaviour
     {
         RaycastHit hit;
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        
+
+
+        if (boxClosed) {notificationBox.SetActive(true);}
+
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -38,8 +46,9 @@ public class Box : MonoBehaviour
             {
                 if (hit.collider.gameObject == gameObject && boxClosed)
                 {
+                    notificationText.SetText("Drag and drop the objects into the box");
+                    imageComponent.sprite = spriteToChange;
                     Debug.Log("Open Box");
-                    notificationBox.SetActive(true);
                     buttons.SetActive(true);
                     boxClosed = false;
                     plane.SetActive(true);
