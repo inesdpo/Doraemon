@@ -11,7 +11,9 @@ public class RaycastDragger : MonoBehaviour
     private bool IsDragging = false;
     private bool IsSnapping = false;
     private float t = 0.0f;
+    private float rotationT = 0.0f;
     private float animationTime = 0.0f;
+    private float rotationTime = 0.0f;
 
     public GameObject boxPlane; 
 
@@ -21,9 +23,13 @@ public class RaycastDragger : MonoBehaviour
     private Vector3 boxMax = Vector3.zero;
 
     private Vector3 GoalPosition = Vector3.zero;
+    private Quaternion GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+    private Quaternion ZeroRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
     private Vector3 LetGoPosition = Vector3.zero;
+    private Quaternion LetGoRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
     private Transform DraggingObject = null;
     private Vector3 InitialPosition = Vector3.zero;
+    private Quaternion InitialRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
     public Camera camera;
     int layerMask;
     public AnimationCurve easeCurve;
@@ -37,6 +43,7 @@ public class RaycastDragger : MonoBehaviour
     void Start()
     {
         InitialPosition = gameObject.transform.parent.transform.position;
+        InitialRotation = gameObject.transform.parent.transform.rotation;
         boxPlane = GameObject.FindGameObjectsWithTag("Box")[0];
 
     }
@@ -69,6 +76,15 @@ public class RaycastDragger : MonoBehaviour
 
         if (IsDragging)
         {
+
+            rotationT += 0.01f;
+            if (rotationT >= 1) { rotationT = 1.0f; };
+
+            animationTime = easeCurve.Evaluate(rotationT);
+                       
+            DraggingObject.parent.transform.rotation = Quaternion.Lerp(InitialRotation, ZeroRotation, animationTime);
+
+                        
             DraggingObject.parent.transform.position = ray.GetPoint(ray.origin.z * - 0.3f);
 
             layerMask = 1 << LayerMask.NameToLayer("Grid Plane");
@@ -83,11 +99,12 @@ public class RaycastDragger : MonoBehaviour
 
         if (IsSnapping)
         {
-            t += 0.25f;
+            t += 0.01f;
 
             animationTime = easeCurve.Evaluate(t);
 
             DraggingObject.parent.transform.position = Vector3.Lerp(LetGoPosition, GoalPosition, animationTime);
+            DraggingObject.parent.transform.rotation = Quaternion.Lerp(LetGoRotation, GoalRotation, animationTime);
 
             if (t >= 1)
             {
@@ -102,7 +119,8 @@ public class RaycastDragger : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && IsDragging)
         {
-            IsDragging = false;            
+            IsDragging = false;
+            rotationT = 0.0f;
 
             //new ray starting from the dragging objects to the plane
 
@@ -143,7 +161,11 @@ public class RaycastDragger : MonoBehaviour
                         IsSnapping = true;
 
                         LetGoPosition = DraggingObject.position;
+                        LetGoRotation = DraggingObject.rotation;
                         GoalPosition = hit.transform.position;
+                        GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+
+                        DraggingObject.parent.parent = boxPlane.transform;
 
                         Debug.Log("I'm snapping to the grid");
 
@@ -165,7 +187,11 @@ public class RaycastDragger : MonoBehaviour
                 //DraggingObject.gameObject.SetActive(false);
                 IsSnapping = true;
                 LetGoPosition = DraggingObject.position;
+                LetGoRotation = DraggingObject.rotation;
                 GoalPosition = InitialPosition;
+                GoalRotation = InitialRotation;
+
+                DraggingObject.parent.parent = GameObject.Find("DraggableObjects").transform;
 
                 Debug.Log("I'm snapping back to my original position");
 
