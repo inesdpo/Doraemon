@@ -168,7 +168,7 @@ public class RaycastDragger : MonoBehaviour
                             GoalPosition = hit.transform.position;
                             GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
-                            DraggingObject.parent.parent = boxPlane.transform;
+                            DraggingObject.parent = boxPlane.transform;
 
                             notificationBox.SetActive(false);
                             return;
@@ -180,6 +180,8 @@ public class RaycastDragger : MonoBehaviour
 
                 }
 
+
+
                 //DraggingObject.gameObject.SetActive(false);
                 IsSnapping = true;
                 LetGoPosition = DraggingObject.position;
@@ -187,7 +189,7 @@ public class RaycastDragger : MonoBehaviour
                 GoalPosition = InitialPosition;
                 GoalRotation = InitialRotation;
 
-                DraggingObject.parent.parent = GameObject.Find("DraggableObjects").transform;
+                DraggingObject.parent = GameObject.Find("DraggableObjects").transform;
 
                 Debug.Log("I'm snapping back to my original position");
 
