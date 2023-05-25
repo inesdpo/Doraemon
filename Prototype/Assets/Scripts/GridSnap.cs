@@ -8,7 +8,6 @@ public class GridSnap : MonoBehaviour
  
     float width = 0.0f;
     float height = 0.0f;
-    float thickness = 0.0f;
 
     Vector3 topLeftCorner = Vector3.zero;
 
@@ -19,8 +18,6 @@ public class GridSnap : MonoBehaviour
 
     public GameObject spherePrefab;
 
-    public GameObject Grid;
-
         
     // Start is called before the first frame update
     void Start()
@@ -30,13 +27,11 @@ public class GridSnap : MonoBehaviour
         BoxCollider boxCollider = GetComponent<BoxCollider>();
 
         boxPos = transform.position;
-        Debug.Log(boxPos);
 
-        width = transform.localScale.x;
-        height = transform.localScale.z;
-        thickness = transform.localScale.y;
-
-        topLeftCorner = new Vector3(boxPos.x - width/2, boxPos.y + thickness/2, boxPos.z - height/2);
+        width = boxCollider.size.x;
+        height = boxCollider.size.z;
+        
+        topLeftCorner = new Vector3( boxPos.x - width/2.0f , boxPos.y , boxPos.z - height/2.0f);
 
         gridUnitWidth = width / 10.0f;
         gridUnitHeight= height / 13.0f;
@@ -52,7 +47,6 @@ public class GridSnap : MonoBehaviour
 
                 GameObject gridUnit = Instantiate(spherePrefab, gridSnapPoint, new Quaternion());
                 gridUnit.transform.localScale = new Vector3(gridUnitWidth * 0.95f, 0.001f, gridUnitHeight * 0.95f);
-                gridUnit.transform.parent = Grid.transform;
 
 
             }
@@ -64,5 +58,6 @@ public class GridSnap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
 }
