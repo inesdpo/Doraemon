@@ -15,7 +15,7 @@ public class RaycastDragger : MonoBehaviour
     private float animationTime = 0.0f;
     private float rotationTime = 0.0f;
 
-    public GameObject boxPlane;
+    public GameObject box;
 
     private Vector3 objectMin = Vector3.zero;
     private Vector3 objectMax = Vector3.zero;
@@ -34,6 +34,8 @@ public class RaycastDragger : MonoBehaviour
     int layerMask;
     public AnimationCurve easeCurve;
 
+    private bool justLetGo = true;
+
     public TextMeshProUGUI notificationText;
     public GameObject notificationBox;
     public Image imageComponent;
@@ -51,15 +53,15 @@ public class RaycastDragger : MonoBehaviour
     void Update()
     {
 
-
         if (Input.touchCount > 0)
         {
 
-            RaycastHit hit;
+            justLetGo = false;
 
             Touch touch = Input.GetTouch(0);
 
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            RaycastHit hit;
 
             layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
 
@@ -69,63 +71,23 @@ public class RaycastDragger : MonoBehaviour
                 {
                     DraggingObject = hit.transform;
                     IsDragging = true;
-                    notificationText.SetText("Two fingers to rotate");
-                    imageComponent.sprite = spriteToChange;
+                    /*notificationText.SetText("Two fingers to rotate");
+                    imageComponent.sprite = spriteToChange;*/
 
                 }
             }
+            
 
             if (IsDragging)
             {
                 rotationT += 0.25f;
-                if (rotationT >= 1) { rotationT = 1.0f; };
+                if (rotationT >= 1) { rotationT = 1.0f;};
 
                 animationTime = easeCurve.Evaluate(rotationT);
 
-                //DraggingObject.parent.parent = boxPlane.transform;
-
                 DraggingObject.parent.transform.rotation = Quaternion.Lerp(InitialRotation, ZeroRotation, animationTime);
 
-                DraggingObject.parent.transform.position = ray.GetPoint(ray.origin.z * -0.7f);
-
-                layerMask = 1 << LayerMask.NameToLayer("Grid Plane"); 
-
-                Ray gridRay = Camera.main.ScreenPointToRay(touch.position);
-
-                if (Physics.Raycast(gridRay, out hit, 100, layerMask))
-                {
-                    DraggingObject.parent.transform.position = hit.transform.position + new Vector3(0, 0.05f, 0);
-                };
-            } 
-
-            if (IsSnapping)
-            {
-                t += 0.25f;
-
-                animationTime = easeCurve.Evaluate(t);
-
-                DraggingObject.parent.transform.position = Vector3.Lerp(LetGoPosition, GoalPosition, animationTime);
-                DraggingObject.parent.transform.rotation = Quaternion.Lerp(LetGoRotation, GoalRotation, animationTime);
-
-                if (t >= 1)
-                {
-                    t = 0;
-                    IsSnapping = false;
-                    DraggingObject = null;
-                }
-
-            } 
-
-
-            if (touch.phase == TouchPhase.Ended && IsDragging)
-            {
-
-                Debug.Log("touch ended");
-
-                IsDragging = false;
-                rotationT = 0.0f;
-
-                //new ray starting from the dragging objects to the plane
+                DraggingObject.parent.transform.position = ray.GetPoint(ray.origin.z * -0.5f);
 
                 layerMask = 1 << LayerMask.NameToLayer("Grid Plane");
 
@@ -133,50 +95,74 @@ public class RaycastDragger : MonoBehaviour
 
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
+                    DraggingObject.parent.transform.position = hit.transform.position + new Vector3(0, 0.5f, 0);
+                };
+            }
 
-                    objectMin = gameObject.GetComponent<BoxCollider>().bounds.min;
-                    objectMax = gameObject.GetComponent<BoxCollider>().bounds.max;
-                    boxMin = boxPlane.GetComponent<BoxCollider>().bounds.min;
-                    boxMax = boxPlane.GetComponent<BoxCollider>().bounds.max;
+            
+
+        } else
+        {
+            DraggingObject = null;
+        }
 
 
-                    if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
+        /*else
+        {
+
+            
+
+            if (justLetGo == false)
+            {
+                justLetGo = true;
+
+                Debug.Log("touch ended");
+
+                //function that runs once when I let go
+
+                IsDragging = false;
+                rotationT = 0.0f;
+
+                objectMin = gameObject.GetComponent<BoxCollider>().bounds.min;
+                objectMax = gameObject.GetComponent<BoxCollider>().bounds.max;
+                boxMin = box.GetComponent<BoxCollider>().bounds.min;
+                boxMax = box.GetComponent<BoxCollider>().bounds.max;
+
+
+                if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
+                {
+                    layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
+
+                    Debug.Log("I'm inside the box bouds!");
+
+                    RaycastHit hitObject;
+
+                    Vector3 extendsScaled = new Vector3
+                        (
+                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x,
+                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y,
+                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z
+                        );
+
+
+
+                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
                     {
-                        layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
+                        Debug.Log("There is no object underneath me");
 
-                        Debug.Log("I'm inside the box bouds!");
+                        IsSnapping = true;
 
-                        RaycastHit hitObject;
+                        LetGoPosition = DraggingObject.position;
+                        LetGoRotation = DraggingObject.rotation;
+                        //GoalPosition = hit.transform.position;
+                        GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
-                        Vector3 extendsScaled = new Vector3
-                            (
-                                DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x,
-                                DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y,
-                                DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z
-                            );
+                        DraggingObject.parent.parent = box.transform;
 
+                        notificationBox.SetActive(false);
+                        return;
 
-
-                        if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
-                        {
-                            Debug.Log("There is no object underneath me");
-
-                            IsSnapping = true;
-
-                            LetGoPosition = DraggingObject.position;
-                            LetGoRotation = DraggingObject.rotation;
-                            GoalPosition = hit.transform.position;
-                            GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-
-                            DraggingObject.parent.parent = boxPlane.transform;
-
-                            notificationBox.SetActive(false);
-                            return;
-
-                        };
-
-                    }
-
+                    };
 
                 }
 
@@ -187,16 +173,33 @@ public class RaycastDragger : MonoBehaviour
                 GoalPosition = InitialPosition;
                 GoalRotation = InitialRotation;
 
-                DraggingObject.parent.parent = GameObject.Find("DraggableObjects").transform;
+                //DraggingObject.parent.parent = GameObject.Find("DraggableObjects").transform;
 
                 Debug.Log("I'm snapping back to my original position");
 
-                //notificationText.SetText("Drag object with finger"); 
-
-            } 
+            }
 
         }
+
+        if (IsSnapping)
+        {
+            t += 0.25f;
+
+            Debug.Log("I'm snapping");
+
+            animationTime = easeCurve.Evaluate(t);
+
+            DraggingObject.parent.transform.position = Vector3.Lerp(LetGoPosition, GoalPosition, animationTime);
+            DraggingObject.parent.transform.rotation = Quaternion.Lerp(LetGoRotation, GoalRotation, animationTime);
+
+            if (t >= 1)
+            {
+                t = 0;
+                IsSnapping = false;
+                DraggingObject = null;
+            }
+
+        } */
+
     }
-
-
 }

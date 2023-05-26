@@ -51,7 +51,7 @@ public class GridSnap : MonoBehaviour
                 Vector3 gridSnapPoint = new Vector3(gridUnitCenter.x + x * gridUnitWidth , gridUnitCenter.y , gridUnitCenter.z + z * gridUnitHeight);
 
                 GameObject gridUnit = Instantiate(spherePrefab, gridSnapPoint, new Quaternion());
-                gridUnit.transform.localScale = new Vector3(gridUnitWidth * 0.95f, 0.001f, gridUnitHeight * 0.95f);
+                gridUnit.transform.localScale = new Vector3(gridUnitWidth, 0.001f, gridUnitHeight);
                 gridUnit.transform.parent = Grid.transform;
 
 
