@@ -11,10 +11,12 @@ public class Box : MonoBehaviour
 
     public GameObject notificationBox;
     public TextMeshProUGUI notificationText;
-    public GameObject buttons;
+    public GameObject saveButton;
     public bool boxClosed = true;
     public Image imageComponent;
     public Sprite spriteToChange;
+
+    private bool firstTouch = false;
 
     //public GameObject newIcon;
 
@@ -25,45 +27,46 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        notificationBox.SetActive(true);
+
     }
 
     // Update is called once per frame
     void Update()
-    {
-        RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+    {   
 
-
-        if (boxClosed) {notificationBox.SetActive(true);}
-
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0 && firstTouch == false)
         {
+
+            RaycastHit hit;
+
+            Touch touch = Input.GetTouch(0);
+
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+
             layerMask = 1 << LayerMask.NameToLayer("Box");
 
-            if (Physics.Raycast(ray, out hit, 100, layerMask))
+            if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
-                if (hit.collider.gameObject == gameObject && boxClosed)
+                notificationText.SetText("Drag and drop the objects into the box");
+                imageComponent.sprite = spriteToChange;
+                Debug.Log("Open Box");
+                saveButton.SetActive(true);
+                boxClosed = false;
+                plane.SetActive(true);
+                //newIcon.SetActive(false);
+
+
+                foreach (var obj in draggableObjects)
                 {
-                    notificationText.SetText("Drag and drop the objects into the box");
-                    imageComponent.sprite = spriteToChange;
-                    Debug.Log("Open Box");
-                    buttons.SetActive(true);
-                    boxClosed = false;
-                    plane.SetActive(true);
-                    //newIcon.SetActive(false);
-
-
-                    foreach (var obj in draggableObjects)
-                    {
-                        obj.SetActive(true);
-                    }
+                    obj.SetActive(true);
                 }
-                
             }
-           
-        }
+
+            firstTouch = true;
+
+        } else { firstTouch = false; }
 
     }
 }

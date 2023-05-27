@@ -57,7 +57,6 @@ public class RaycastDragger : MonoBehaviour
     public Image imageComponent;
     public Sprite spriteToChange;
 
-    // Start is called before the first frame update
     void Start()
     {
         InitialPosition = gameObject.transform.parent.transform.localPosition;
@@ -65,14 +64,8 @@ public class RaycastDragger : MonoBehaviour
         PivotInitialScale = gameObject.transform.parent.localScale;
         ObjectInitialScale = gameObject.transform.localScale;
 
-        Debug.Log(InitialPosition);
-        Debug.Log(InitialRotation);
-        Debug.Log(PivotInitialScale);
-        Debug.Log(ObjectInitialScale);
-
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -108,8 +101,8 @@ public class RaycastDragger : MonoBehaviour
 
                         IsDragging = true;
 
-                        /*notificationText.SetText("Two fingers to rotate");
-                        imageComponent.sprite = spriteToChange;*/
+                        notificationText.SetText("While dragging, use two fingers to rotate");
+                        imageComponent.sprite = spriteToChange;
 
                     }
                 }
@@ -124,7 +117,7 @@ public class RaycastDragger : MonoBehaviour
 
                 // zero out the rotation to align the object with the box 
 
-                rotationT += 0.25f;
+                rotationT += 0.1f;
                 if (rotationT >= 1) { rotationT = 1.0f; };
 
                 animationTime = easeCurve.Evaluate(rotationT);
@@ -168,7 +161,7 @@ public class RaycastDragger : MonoBehaviour
 
                 if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
                 {
-                    Debug.Log("I'm inside of the bounds");
+                    Debug.Log("I'm inside of the box's bounds");
 
                     layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
 
@@ -181,13 +174,11 @@ public class RaycastDragger : MonoBehaviour
                             Pivot.localScale.z
                         );
 
-                    Debug.Log(extendsScaled);
-
 
                     if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.4f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
                     {
 
-                        Debug.Log("I didn't hit any object");
+                        Debug.Log("There are no objects underneath me, I'm snapping to the grid");
 
                         IsSnapping = true;
 
@@ -203,6 +194,8 @@ public class RaycastDragger : MonoBehaviour
                         GoalRotation = LetGoRotation;
 
                         DraggingObject = null;
+
+                        notificationBox.SetActive(false);
 
                         return;
 
@@ -248,105 +241,6 @@ public class RaycastDragger : MonoBehaviour
 
             }
         }
-
-
-
-        
-
-
-        /*else
-        {
-
-            
-
-            if (justLetGo == false)
-            {
-                justLetGo = true;
-
-                Debug.Log("touch ended");
-
-                //function that runs once when I let go
-
-                IsDragging = false;
-                rotationT = 0.0f;
-
-                objectMin = gameObject.GetComponent<BoxCollider>().bounds.min;
-                objectMax = gameObject.GetComponent<BoxCollider>().bounds.max;
-                boxMin = box.GetComponent<BoxCollider>().bounds.min;
-                boxMax = box.GetComponent<BoxCollider>().bounds.max;
-
-
-                if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
-                {
-                    layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
-
-                    Debug.Log("I'm inside the box bouds!");
-
-                    RaycastHit hitObject;
-
-                    Vector3 extendsScaled = new Vector3
-                        (
-                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x,
-                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y,
-                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z
-                        );
-
-
-
-                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
-                    {
-                        Debug.Log("There is no object underneath me");
-
-                        IsSnapping = true;
-
-                        LetGoPosition = DraggingObject.position;
-                        LetGoRotation = DraggingObject.rotation;
-                        //GoalPosition = hit.transform.position;
-                        GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-
-                        DraggingObject.parent.parent = box.transform;
-
-                        notificationBox.SetActive(false);
-                        return;
-
-                    };
-
-                }
-
-                //DraggingObject.gameObject.SetActive(false);
-                IsSnapping = true;
-                LetGoPosition = DraggingObject.position;
-                LetGoRotation = DraggingObject.rotation;
-                GoalPosition = InitialPosition;
-                GoalRotation = InitialRotation;
-
-                //DraggingObject.parent.parent = GameObject.Find("DraggableObjects").transform;
-
-                Debug.Log("I'm snapping back to my original position");
-
-            }
-
-        }
-
-        if (IsSnapping)
-        {
-            t += 0.25f;
-
-            Debug.Log("I'm snapping");
-
-            animationTime = easeCurve.Evaluate(t);
-
-            DraggingObject.parent.transform.position = Vector3.Lerp(LetGoPosition, GoalPosition, animationTime);
-            DraggingObject.parent.transform.rotation = Quaternion.Lerp(LetGoRotation, GoalRotation, animationTime);
-
-            if (t >= 1)
-            {
-                t = 0;
-                IsSnapping = false;
-                DraggingObject = null;
-            }
-
-        } */
 
     }
 
