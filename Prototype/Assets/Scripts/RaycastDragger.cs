@@ -38,6 +38,9 @@ public class RaycastDragger : MonoBehaviour
     private Quaternion ZeroRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 
 
+    public Vector3 WorldScale;
+    public Quaternion WorldRotation;
+
 
     private Vector3 InitialPosition = Vector3.zero;
     private Quaternion InitialRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
@@ -124,7 +127,7 @@ public class RaycastDragger : MonoBehaviour
 
                 animationTime = easeCurve.Evaluate(rotationT);
 
-                Pivot.transform.localRotation = Quaternion.Lerp(InitialRotation, ZeroRotation, animationTime);
+                Pivot.transform.localRotation = Quaternion.Lerp(InitialRotation, WorldRotation, animationTime);
 
 
                 // the object gets dragged around according to the finger's position
@@ -141,7 +144,8 @@ public class RaycastDragger : MonoBehaviour
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
                     Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
-                };
+                    DraggingObject.localScale = WorldScale;
+                } else { DraggingObject.localScale = new Vector3(1, 1, 1); }
 
                 // Check if there are two touches
                 if (Input.touchCount >= 2)
