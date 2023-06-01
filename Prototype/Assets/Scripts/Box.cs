@@ -24,17 +24,25 @@ public class Box : MonoBehaviour
 
     public GameObject[] draggableObjects;
 
+    public Animator mAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
 
         notificationBox.SetActive(true);
 
+        //mAnimator = GetComponent<Animator>();
+
+        Debug.Log(mAnimator);
+
     }
 
     // Update is called once per frame
     void Update()
-    {   
+    {
+
+        Debug.Log(mAnimator);
 
         if (Input.touchCount > 0 && firstTouch == false)
         {
@@ -47,6 +55,8 @@ public class Box : MonoBehaviour
 
             layerMask = 1 << LayerMask.NameToLayer("Box");
 
+            
+
             if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
                 notificationText.SetText("Drag and drop the objects into the box");
@@ -57,11 +67,20 @@ public class Box : MonoBehaviour
                 plane.SetActive(true);
                 //newIcon.SetActive(false);
 
-
                 foreach (var obj in draggableObjects)
                 {
                     obj.SetActive(true);
                 }
+
+                if( mAnimator != null )
+                {
+                   
+                    mAnimator.SetTrigger("TrOpen");
+                    Debug.Log("open box");
+                }
+                
+
+                
             }
 
             firstTouch = true;
