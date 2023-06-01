@@ -30,22 +30,24 @@ public class RaycastDragger : MonoBehaviour
     private Vector3 GoalPosition = Vector3.zero;
     private Quaternion GoalRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
     private Vector3 GoalScale = Vector3.zero;
-    
+
     private Vector3 LetGoPosition = Vector3.zero;
     private Quaternion LetGoRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
     private Vector3 LetGoScale = Vector3.zero;
 
     private Quaternion ZeroRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 
- 
+
 
     private Vector3 InitialPosition = Vector3.zero;
     private Quaternion InitialRotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
     private Vector3 PivotInitialScale = Vector3.zero;
     private Vector3 ObjectInitialScale = Vector3.zero;
-    
 
-  
+    private float rotationSpeed = 180.0f; // Adjust the rotation speed as desired
+
+
+
     int layerMask;
     public AnimationCurve easeCurve;
 
@@ -69,7 +71,7 @@ public class RaycastDragger : MonoBehaviour
     void Update()
     {
 
-        
+
 
         if (Input.touchCount > 0)
         {
@@ -140,6 +142,42 @@ public class RaycastDragger : MonoBehaviour
                 {
                     Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
                 };
+
+                // Check if there are two touches
+                if (Input.touchCount >= 2)
+                {
+                    // Get the positions of both touches
+                    Touch touch1 = Input.GetTouch(0);
+                    Touch touch2 = Input.GetTouch(1);
+
+                    // Check if both touches are moving
+                    if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)
+                    {
+                        // Calculate the previous and current positions of both touches
+                        Vector2 prevTouch1Pos = touch1.position - touch1.deltaPosition;
+                        Vector2 prevTouch2Pos = touch2.position - touch2.deltaPosition;
+                        Vector2 touch1Delta = touch1.position - prevTouch1Pos;
+                        Vector2 touch2Delta = touch2.position - prevTouch2Pos;
+
+                        // Calculate the angle between the previous and current positions of both touches
+                        float rotationAngle = Vector2.Angle(touch1Delta, touch2Delta);
+
+                        // Cross product to determine the direction of rotation
+                        Vector3 cross = Vector3.Cross(touch1Delta, touch2Delta);
+
+                        // Adjust the rotation angle based on the direction of rotation
+                        if (cross.z > 0)
+                            rotationAngle = -rotationAngle;
+
+                        // Restrict the rotation to the Y-axis
+                        rotationAngle *= Mathf.Sign(Vector3.Dot(Vector3.up, cross));
+
+                        // Apply the rotation to the dragged object around the Y-axis
+                        DraggingObject.Rotate(Vector3.up, rotationAngle, Space.World);
+
+                    }
+                }
+
             }
 
 
@@ -147,7 +185,7 @@ public class RaycastDragger : MonoBehaviour
         }
         else
         {
-            
+
             firstTouch = false;
 
             if (justLetGo == false && IsDragging == true)
@@ -234,7 +272,7 @@ public class RaycastDragger : MonoBehaviour
             Pivot.localScale = Vector3.Lerp(LetGoScale, GoalScale, animationTime);
 
             if (t >= 1)
-            {   
+            {
                 t = 0;
                 IsSnapping = false;
                 DraggingObject = null;

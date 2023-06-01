@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Text;
 using System.IO;
 using System.Collections.Generic;
@@ -154,7 +154,7 @@ public class ScreenshotCamera : MonoBehaviour
         byte[] byteArray = File.ReadAllBytes(SAVE_FOLDER + "/SaveFileScreenshot/SaveFileGameData.save");
 
         SaveData saveData = JsonUtility.FromJson<SaveData>(json);
-        */
+       
 
         object1.SetActive(saveData.object == 1);
         object2.SetActive(saveData.object == 2);
@@ -168,5 +168,5 @@ public class ScreenshotCamera : MonoBehaviour
         screenshotCamera.targetTexture = RenderTexture.GetTemporary(512, 512, 16);
         this.onScreenshotTaken = onScreenshotTaken;
     }
-}
+} */
 
