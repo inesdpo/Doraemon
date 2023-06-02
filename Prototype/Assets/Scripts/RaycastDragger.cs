@@ -72,6 +72,7 @@ public class RaycastDragger : MonoBehaviour
         Debug.Log("World Scale: " + WorldScale);
         Debug.Log("World Rotation: " + WorldRotation);
 
+
     }
 
     void Update()
@@ -105,8 +106,8 @@ public class RaycastDragger : MonoBehaviour
 
                         Pivot.parent = boxScene.transform;
 
-                        Pivot.localScale = PivotInitialScale;
-                        DraggingObject.localScale = ObjectInitialScale;
+                        //Pivot.localScale = PivotInitialScale;
+                        DraggingObject.localScale = WorldScale / 4;
 
                         Debug.Log("Pivot Scale: " + Pivot.localScale);
                         Debug.Log("Object Scale: " + DraggingObject.localScale);
@@ -154,7 +155,7 @@ public class RaycastDragger : MonoBehaviour
                     Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
 
-                } else { DraggingObject.localScale = new Vector3(1, 1, 1); }
+                } else { DraggingObject.localScale = WorldScale / 4; }
 
                 // Check if there are two touches
                 if (Input.touchCount >= 2)
@@ -220,13 +221,15 @@ public class RaycastDragger : MonoBehaviour
 
                     Vector3 extendsScaled = new Vector3
                         (
-                            Pivot.localScale.x,
-                            Pivot.localScale.y,
-                            Pivot.localScale.z
+                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
+                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
+                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
                         );
 
+                    Debug.Log("Shooting a box with those dimensions: " + extendsScaled);
 
-                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.4f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
+
+                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
                     {
 
                         Debug.Log("There are no objects underneath me, I'm snapping to the grid");
@@ -237,16 +240,12 @@ public class RaycastDragger : MonoBehaviour
                         Pivot.parent = boxScene.transform;
 
                         LetGoPosition = Pivot.localPosition;
-
-                        Debug.Log("Setting the rotation");
                         LetGoRotation = Pivot.localRotation;
-                        LetGoScale = Pivot.localScale;
+                        LetGoScale = DraggingObject.localScale;
 
                         GoalPosition = LetGoPosition - new Vector3(0, 0.4f, 0);
                         GoalScale = LetGoScale;
                         GoalRotation = LetGoRotation;
-
-                        DraggingObject = null;
 
                         notificationBox.SetActive(false);
 
@@ -260,15 +259,14 @@ public class RaycastDragger : MonoBehaviour
 
                 Pivot.parent = ObjectsList.transform;
 
-
                 IsSnapping = true;
 
                 LetGoPosition = Pivot.localPosition;
                 LetGoRotation = Pivot.localRotation;
-                LetGoScale = Pivot.localScale;
+                LetGoScale = DraggingObject.localScale;
 
                 GoalPosition = InitialPosition;
-                GoalScale = PivotInitialScale;
+                GoalScale = ObjectInitialScale;
                 GoalRotation = InitialRotation;
 
             }
@@ -284,13 +282,15 @@ public class RaycastDragger : MonoBehaviour
 
             Pivot.localPosition = Vector3.Lerp(LetGoPosition, GoalPosition, animationTime);
             Pivot.localRotation = Quaternion.Lerp(LetGoRotation, GoalRotation, animationTime);
-            Pivot.localScale = Vector3.Lerp(LetGoScale, GoalScale, animationTime);
+            DraggingObject.localScale = Vector3.Lerp(LetGoScale, GoalScale, animationTime);
 
             if (t >= 1)
             {
                 t = 0;
                 IsSnapping = false;
                 DraggingObject = null;
+
+                Debug.Log("Fine snap");
 
             }
         }
