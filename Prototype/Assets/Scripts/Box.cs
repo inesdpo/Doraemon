@@ -32,9 +32,7 @@ public class Box : MonoBehaviour
 
         notificationBox.SetActive(true);
 
-        //mAnimator = GetComponent<Animator>();
-
-        Debug.Log(mAnimator);
+        //mAnimator = GetComponent<Animator>()
 
     }
 
@@ -42,7 +40,6 @@ public class Box : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(mAnimator);
 
         if (Input.touchCount > 0 && firstTouch == false)
         {

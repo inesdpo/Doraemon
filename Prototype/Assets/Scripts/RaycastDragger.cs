@@ -64,10 +64,13 @@ public class RaycastDragger : MonoBehaviour
 
     void Start()
     {
-        InitialPosition = gameObject.transform.parent.transform.localPosition;
-        InitialRotation = gameObject.transform.parent.transform.localRotation;
+        InitialPosition = gameObject.transform.parent.localPosition;
+        InitialRotation = gameObject.transform.parent.localRotation;
         PivotInitialScale = gameObject.transform.parent.localScale;
         ObjectInitialScale = gameObject.transform.localScale;
+
+        Debug.Log("World Scale: " + WorldScale);
+        Debug.Log("World Rotation: " + WorldRotation);
 
     }
 
@@ -101,8 +104,12 @@ public class RaycastDragger : MonoBehaviour
                         Pivot = DraggingObject.parent;
 
                         Pivot.parent = boxScene.transform;
+
                         Pivot.localScale = PivotInitialScale;
                         DraggingObject.localScale = ObjectInitialScale;
+
+                        Debug.Log("Pivot Scale: " + Pivot.localScale);
+                        Debug.Log("Object Scale: " + DraggingObject.localScale);
 
                         IsDragging = true;
 
@@ -143,8 +150,10 @@ public class RaycastDragger : MonoBehaviour
 
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
+
                     Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
+
                 } else { DraggingObject.localScale = new Vector3(1, 1, 1); }
 
                 // Check if there are two touches
@@ -228,6 +237,8 @@ public class RaycastDragger : MonoBehaviour
                         Pivot.parent = boxScene.transform;
 
                         LetGoPosition = Pivot.localPosition;
+
+                        Debug.Log("Setting the rotation");
                         LetGoRotation = Pivot.localRotation;
                         LetGoScale = Pivot.localScale;
 
