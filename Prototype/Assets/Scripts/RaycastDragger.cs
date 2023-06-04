@@ -59,8 +59,14 @@ public class RaycastDragger : MonoBehaviour
     public Sprite spriteToChange;
 
 
-    private bool ObjectsUnderneath = false;
+    private bool canPlaceObject;
     private Vector3 extendsScaled = Vector3.zero;
+    public GameObject BoxCast;
+    private Color Red = new Color(255, 54, 54, 122.5f);
+    private Color Green = new Color(2, 213, 110, 122.5f);
+
+    public Material TransparentRed;
+    public Material TransparentGreen;
 
     void Start()
     {
@@ -142,36 +148,63 @@ public class RaycastDragger : MonoBehaviour
 
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
-
+                    if (!BoxCast.activeSelf) { BoxCast.SetActive(true);}
+                    BoxCast.GetComponent<Renderer>().material = TransparentGreen;
                     Pivot.position = hit.point + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
 
                 }
-                else { DraggingObject.localScale = WorldScale / 4; }
+                else { DraggingObject.localScale = WorldScale / 4; if (BoxCast.activeSelf) { BoxCast.SetActive(false); } }
 
 
 
-                layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
 
-                ObjectsUnderneath = false;
+                objectMin = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.min;
+                objectMax = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.max;
+                boxMin = box.GetComponent<BoxCollider>().bounds.min;
+                boxMax = box.GetComponent<BoxCollider>().bounds.max;
 
-                extendsScaled = new Vector3
-                    (
-                        DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
-                        DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
-                        DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
-                    );
+                canPlaceObject = true;
 
+                //Check if the object is inside the bounds
 
-                RaycastHit[] AllHits = Physics.BoxCastAll(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1.0f, 0), Pivot.localRotation, 10.0f, layerMask);
-
-
-                foreach (var objectHit in AllHits)
+                if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
                 {
-                    if (objectHit.collider.name != gameObject.name)
+
+                    Debug.Log("I'm inside of the box's bounds");
+
+                    layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
+
+                    extendsScaled = new Vector3
+                        (
+                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
+                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
+                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
+                        );
+                    
+
+
+                    //Check if the object has other objects underneath
+
+                    RaycastHit[] AllHits = Physics.BoxCastAll(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1.0f, 0), Pivot.localRotation, 10.0f, layerMask);
+
+
+                    foreach (var objectHit in AllHits)
                     {
-                        ObjectsUnderneath = true;
+                        if (objectHit.collider.name != gameObject.name)
+                        {
+                            canPlaceObject = false;
+                            BoxCast.GetComponent<Renderer>().material = TransparentRed;
+
+                            Debug.Log("i have something underneath");
+                        }
                     }
+
+                } else {
+                    canPlaceObject = false;
+                    BoxCast.GetComponent<Renderer>().material = TransparentRed;
+
+                    Debug.Log("I'm outside of the box");
                 }
 
 
@@ -188,52 +221,44 @@ public class RaycastDragger : MonoBehaviour
             if (justLetGo == false && IsDragging == true)
             {
                 IsDragging = false;
-
-                objectMin = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.min;
-                objectMax = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.max;
-                boxMin = box.GetComponent<BoxCollider>().bounds.min;
-                boxMax = box.GetComponent<BoxCollider>().bounds.max;
-
-                if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
-                {
+                BoxCast.SetActive(false);
 
 
-
-                    if (!ObjectsUnderneath)
-                    {
-
-                        IsSnapping = true;
-
-
-                        Pivot.parent = boxScene.transform;
-
-                        LetGoPosition = Pivot.localPosition;
-                        LetGoRotation = Pivot.localRotation;
-                        LetGoScale = DraggingObject.localScale;
-
-                        GoalPosition = LetGoPosition - new Vector3(0, 0.4f, 0);
-                        GoalScale = LetGoScale;
-                        GoalRotation = LetGoRotation;
-
-                        notificationBox.SetActive(false);
-
-                        return;
-
-                    }
-                }
-
-
-                Pivot.parent = ObjectsList.transform;
+            if (canPlaceObject)
+            {
 
                 IsSnapping = true;
+
+
+                Pivot.parent = boxScene.transform;
 
                 LetGoPosition = Pivot.localPosition;
                 LetGoRotation = Pivot.localRotation;
                 LetGoScale = DraggingObject.localScale;
 
-                GoalPosition = InitialPosition;
-                GoalScale = ObjectInitialScale;
-                GoalRotation = InitialRotation;
+                GoalPosition = LetGoPosition - new Vector3(0, 0.4f, 0);
+                GoalScale = LetGoScale;
+                GoalRotation = LetGoRotation;
+
+                notificationBox.SetActive(false);
+
+                return;
+
+            }
+                
+
+
+            Pivot.parent = ObjectsList.transform;
+
+            IsSnapping = true;
+
+            LetGoPosition = Pivot.localPosition;
+            LetGoRotation = Pivot.localRotation;
+            LetGoScale = DraggingObject.localScale;
+
+            GoalPosition = InitialPosition;
+            GoalScale = ObjectInitialScale;
+            GoalRotation = InitialRotation;
 
             }
 
@@ -264,7 +289,7 @@ public class RaycastDragger : MonoBehaviour
     {
         if (IsDragging)
         {
-            if (ObjectsUnderneath) { Gizmos.color = Color.red; }
+            if (!canPlaceObject) { Gizmos.color = Color.red; }
             else { Gizmos.color = Color.green; }
 
             Gizmos.DrawWireCube(DraggingObject.position - new Vector3(0, 5.0f, 0), extendsScaled - new Vector3(0, extendsScaled.y, 0) + new Vector3(0, 10.0f, 0));
