@@ -136,14 +136,14 @@ public class RaycastDragger : MonoBehaviour
 
                 // a new reay gets shot, if it hits the grid, the object snaps to that position
 
-                layerMask = 1 << LayerMask.NameToLayer("Grid Plane");
+                layerMask = 1 << LayerMask.NameToLayer("Box");
 
                 Ray gridRay = Camera.main.ScreenPointToRay(touch.position);
 
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
 
-                    Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
+                    Pivot.position = hit.point + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
 
                 }
