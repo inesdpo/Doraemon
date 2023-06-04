@@ -17,7 +17,7 @@ public class GridSnap : MonoBehaviour
 
     Vector3 gridUnitCenter = Vector3.zero;
 
-    public GameObject spherePrefab;
+    public GameObject grdiUnit;
 
     public GameObject Grid;
 
@@ -26,8 +26,7 @@ public class GridSnap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        BoxCollider boxCollider = GetComponent<BoxCollider>();
-
+        
         boxPos = transform.position;
         Debug.Log(boxPos);
 
@@ -49,7 +48,7 @@ public class GridSnap : MonoBehaviour
             {
                 Vector3 gridSnapPoint = new Vector3(gridUnitCenter.x + x * gridUnitWidth , gridUnitCenter.y , gridUnitCenter.z + z * gridUnitHeight);
 
-                GameObject gridUnit = Instantiate(spherePrefab, gridSnapPoint, new Quaternion());
+                GameObject gridUnit = Instantiate(grdiUnit, gridSnapPoint, new Quaternion());
                 gridUnit.transform.localScale = new Vector3(gridUnitWidth, 0.001f, gridUnitHeight) * 0.99f;
                 gridUnit.transform.parent = Grid.transform;
 

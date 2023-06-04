@@ -47,10 +47,6 @@ public class RaycastDragger : MonoBehaviour
     private Vector3 PivotInitialScale = Vector3.zero;
     private Vector3 ObjectInitialScale = Vector3.zero;
 
-    private float rotationSpeed = 180.0f; // Adjust the rotation speed as desired
-
-
-
     int layerMask;
     public AnimationCurve easeCurve;
 
@@ -62,17 +58,16 @@ public class RaycastDragger : MonoBehaviour
     public Image imageComponent;
     public Sprite spriteToChange;
 
+
+    private bool ObjectsUnderneath = false;
+    private Vector3 extendsScaled = Vector3.zero;
+
     void Start()
     {
         InitialPosition = gameObject.transform.parent.localPosition;
         InitialRotation = gameObject.transform.parent.localRotation;
         PivotInitialScale = gameObject.transform.parent.localScale;
         ObjectInitialScale = gameObject.transform.localScale;
-
-        Debug.Log("World Scale: " + WorldScale);
-        Debug.Log("World Rotation: " + WorldRotation);
-
-
     }
 
     void Update()
@@ -106,11 +101,7 @@ public class RaycastDragger : MonoBehaviour
 
                         Pivot.parent = boxScene.transform;
 
-                        //Pivot.localScale = PivotInitialScale;
                         DraggingObject.localScale = WorldScale / 4;
-
-                        Debug.Log("Pivot Scale: " + Pivot.localScale);
-                        Debug.Log("Object Scale: " + DraggingObject.localScale);
 
                         IsDragging = true;
 
@@ -155,42 +146,34 @@ public class RaycastDragger : MonoBehaviour
                     Pivot.position = hit.transform.position + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
 
-                } else { DraggingObject.localScale = WorldScale / 4; }
+                }
+                else { DraggingObject.localScale = WorldScale / 4; }
 
-                // Check if there are two touches
-                if (Input.touchCount >= 2)
+
+
+                layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
+
+                ObjectsUnderneath = false;
+
+                extendsScaled = new Vector3
+                    (
+                        DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
+                        DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
+                        DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
+                    );
+
+
+                RaycastHit[] AllHits = Physics.BoxCastAll(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1.0f, 0), Pivot.localRotation, 10.0f, layerMask);
+
+
+                foreach (var objectHit in AllHits)
                 {
-                    // Get the positions of both touches
-                    Touch touch1 = Input.GetTouch(0);
-                    Touch touch2 = Input.GetTouch(1);
-
-                    // Check if both touches are moving
-                    if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)
+                    if (objectHit.collider.name != gameObject.name)
                     {
-                        // Calculate the previous and current positions of both touches
-                        Vector2 prevTouch1Pos = touch1.position - touch1.deltaPosition;
-                        Vector2 prevTouch2Pos = touch2.position - touch2.deltaPosition;
-                        Vector2 touch1Delta = touch1.position - prevTouch1Pos;
-                        Vector2 touch2Delta = touch2.position - prevTouch2Pos;
-
-                        // Calculate the angle between the previous and current positions of both touches
-                        float rotationAngle = Vector2.Angle(touch1Delta, touch2Delta);
-
-                        // Cross product to determine the direction of rotation
-                        Vector3 cross = Vector3.Cross(touch1Delta, touch2Delta);
-
-                        // Adjust the rotation angle based on the direction of rotation
-                        if (cross.z > 0)
-                            rotationAngle = -rotationAngle;
-
-                        // Restrict the rotation to the Y-axis
-                        rotationAngle *= Mathf.Sign(Vector3.Dot(Vector3.up, cross));
-
-                        // Apply the rotation to the dragged object around the Y-axis
-                        DraggingObject.Rotate(Vector3.up, rotationAngle, Space.World);
-
+                        ObjectsUnderneath = true;
                     }
                 }
+
 
             }
 
@@ -213,26 +196,11 @@ public class RaycastDragger : MonoBehaviour
 
                 if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
                 {
-                    Debug.Log("I'm inside of the box's bounds");
-
-                    layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
-
-                    RaycastHit hitObject;
-
-                    Vector3 extendsScaled = new Vector3
-                        (
-                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
-                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
-                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
-                        );
-
-                    Debug.Log("Shooting a box with those dimensions: " + extendsScaled);
 
 
-                    if (!Physics.BoxCast(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1, 0), out hitObject, Quaternion.identity, 10, layerMask))
+
+                    if (!ObjectsUnderneath)
                     {
-
-                        Debug.Log("There are no objects underneath me, I'm snapping to the grid");
 
                         IsSnapping = true;
 
@@ -253,8 +221,6 @@ public class RaycastDragger : MonoBehaviour
 
                     }
                 }
-
-                Debug.Log("snapping back to my orginal position");
 
 
                 Pivot.parent = ObjectsList.transform;
@@ -289,13 +255,19 @@ public class RaycastDragger : MonoBehaviour
                 t = 0;
                 IsSnapping = false;
                 DraggingObject = null;
-
-                Debug.Log("Fine snap");
-
             }
         }
 
     }
 
+    private void OnDrawGizmos()
+    {
+        if (IsDragging)
+        {
+            if (ObjectsUnderneath) { Gizmos.color = Color.red; }
+            else { Gizmos.color = Color.green; }
 
+            Gizmos.DrawWireCube(DraggingObject.position - new Vector3(0, 5.0f, 0), extendsScaled - new Vector3(0, extendsScaled.y, 0) + new Vector3(0, 10.0f, 0));
+        }
+    }
 }
