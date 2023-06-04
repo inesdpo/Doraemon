@@ -15,6 +15,8 @@ public class Box : MonoBehaviour
     public bool boxClosed = true;
     public Image imageComponent;
     public Sprite spriteToChange;
+    public GameObject box2;
+    public GameObject box1;
 
     private bool firstTouch = false;
 
@@ -24,15 +26,16 @@ public class Box : MonoBehaviour
 
     public GameObject[] draggableObjects;
 
-    public Animator mAnimator;
+    //public Animator mAnimator;
 
     // Start is called before the first frame update
     void Start()
     {
 
         notificationBox.SetActive(true);
+        box1.SetActive(true);
 
-        //mAnimator = GetComponent<Animator>()
+       // mAnimator = GetComponent<Animator>();
 
     }
 
@@ -62,6 +65,10 @@ public class Box : MonoBehaviour
                 saveButton.SetActive(true);
                 boxClosed = false;
                 plane.SetActive(true);
+                box1.SetActive(false);
+                box2.SetActive(true);
+                
+                
                 //newIcon.SetActive(false);
 
                 foreach (var obj in draggableObjects)
@@ -69,12 +76,12 @@ public class Box : MonoBehaviour
                     obj.SetActive(true);
                 }
 
-                if( mAnimator != null )
-                {
+               // if( mAnimator != null )
+               // {
                    
-                    mAnimator.SetTrigger("TrOpen");
-                    Debug.Log("open box");
-                }
+                    //mAnimator.SetTrigger("TrOpen");
+                    //Debug.Log("open box");
+                //}
                 
 
                 
