@@ -1255,7 +1255,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 202881467}
-  - component: {fileID: 202881468}
   m_Layer: 0
   m_Name: 'Water Bottle pivot '
   m_TagString: Untagged
@@ -1271,7 +1270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202881466}
   m_LocalRotation: {x: 0.11320323, y: 0, z: 0, w: 0.9935719}
-  m_LocalPosition: {x: -0.20600002, y: -0.022000005, z: 0.012700077}
+  m_LocalPosition: {x: -0.189, y: -0.022, z: 0.013}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1279,19 +1278,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 13, y: 0, z: 0}
---- !u!65 &202881468
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202881466}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &209532754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,7 +1422,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230326451}
-  - component: {fileID: 230326452}
   m_Layer: 0
   m_Name: 'Book pivot '
   m_TagString: Untagged
@@ -1452,7 +1437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230326450}
   m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: -0.1554, y: 0, z: 0}
+  m_LocalPosition: {x: -0.13839997, y: 0, z: 0.00029993057}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1460,19 +1445,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &230326452
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230326450}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &251251347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2622,8 +2594,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536141806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.18, y: 0.9, z: 0.83}
-  m_LocalScale: {x: 1.58, y: 1.93, z: 0.5}
+  m_LocalPosition: {x: -0.13, y: 0.52, z: 0.636}
+  m_LocalScale: {x: 0.98, y: 1.15, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1021035520590137162}
@@ -3717,7 +3689,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 793001536}
-  - component: {fileID: 793001537}
   m_Layer: 0
   m_Name: phone pivot
   m_TagString: Untagged
@@ -3733,7 +3704,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793001535}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: -0.096000016, y: 0, z: 0}
+  m_LocalPosition: {x: -0.07199998, y: 0, z: 0.00029993057}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3741,19 +3712,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &793001537
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793001535}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &793467354
 GameObject:
   m_ObjectHideFlags: 0
@@ -4313,7 +4271,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 899878935}
-  - component: {fileID: 899878936}
   m_Layer: 0
   m_Name: AirPod pivot
   m_TagString: Untagged
@@ -4329,7 +4286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899878934}
   m_LocalRotation: {x: -0.258819, y: 0, z: 0, w: 0.9659259}
-  m_LocalPosition: {x: 0.11, y: -0.007, z: 0.008}
+  m_LocalPosition: {x: 0.10390002, y: -0.007, z: 0.008299931}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4337,19 +4294,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
---- !u!65 &899878936
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 899878934}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &918201425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4359,7 +4303,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918201426}
-  - component: {fileID: 918201427}
   m_Layer: 0
   m_Name: pen pivot
   m_TagString: Untagged
@@ -4375,7 +4318,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918201425}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: -0.32200003, y: 0, z: 0}
+  m_LocalPosition: {x: -0.305, y: -0.01, z: -0.002}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4383,19 +4326,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &918201427
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 918201425}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &920068778
 GameObject:
   m_ObjectHideFlags: 0
@@ -4637,7 +4567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.214, y: -0.189}
+  m_AnchoredPosition: {x: 0.201, y: -0.189}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1048382995
@@ -4680,7 +4610,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.1, z: 0.1}
+  m_Size: {x: 0.65, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1049004642
 GameObject:
@@ -6217,7 +6147,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1355316265}
-  - component: {fileID: 1355316266}
   m_Layer: 0
   m_Name: 'glasses pivot '
   m_TagString: Untagged
@@ -6232,28 +6161,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355316264}
-  m_LocalRotation: {x: 0.015543308, y: 0.99047047, z: 0.1339521, w: 0.027991405}
-  m_LocalPosition: {x: 0.27899998, y: 0, z: 0}
+  m_LocalRotation: {x: -0.13052624, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0.26940006, y: 0.001, z: -0.0010000694}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6440804292698282155}
   m_Father: {fileID: 1048382994}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: -15.336, y: 176.456, z: 2.275}
---- !u!65 &1355316266
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1355316264}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!1 &1384654788
 GameObject:
   m_ObjectHideFlags: 0
@@ -6263,7 +6179,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384654789}
-  - component: {fileID: 1384654790}
   m_Layer: 0
   m_Name: Perfume pivot
   m_TagString: Untagged
@@ -6279,7 +6194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384654788}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0.016899988, y: -0.030000005, z: 0.0125000775}
+  m_LocalPosition: {x: -0.00629998, y: -0.005, z: -0.001}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -6287,19 +6202,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &1384654790
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384654788}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1404238008
 GameObject:
   m_ObjectHideFlags: 0
@@ -6350,7 +6252,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1458257578}
-  - component: {fileID: 1458257579}
   m_Layer: 0
   m_Name: Wallet pivot
   m_TagString: Untagged
@@ -6366,7 +6267,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458257577}
   m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: -0.265, y: 0.0124, z: 0.0053}
+  m_LocalPosition: {x: -0.24799998, y: 0, z: 0.002}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -6374,19 +6275,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &1458257579
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458257577}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1461212597
 GameObject:
   m_ObjectHideFlags: 0
@@ -7949,7 +7837,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1830929769}
-  - component: {fileID: 1830929770}
   m_Layer: 0
   m_Name: Chapstick pivot
   m_TagString: Untagged
@@ -7965,7 +7852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830929768}
   m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0.06899999, y: 0.013, z: 0.008000046}
+  m_LocalPosition: {x: 0.04140002, y: 0.0118, z: 0.0079999305}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -7973,19 +7860,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &1830929770
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1830929768}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1846298887
 GameObject:
   m_ObjectHideFlags: 0
@@ -8243,7 +8117,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1963287624}
-  - component: {fileID: 1963287625}
   m_Layer: 0
   m_Name: lotion pivot
   m_TagString: Untagged
@@ -8259,7 +8132,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963287623}
   m_LocalRotation: {x: 0.13052616, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0.1712, y: 0, z: 0}
+  m_LocalPosition: {x: 0.18060002, y: 0, z: 0.00029993057}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -8267,19 +8140,6 @@ Transform:
   m_Father: {fileID: 1048382994}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!65 &1963287625
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963287623}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1967467781
 GameObject:
   m_ObjectHideFlags: 0
@@ -8974,7 +8834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2055758322
 Transform:
   m_ObjectHideFlags: 0
@@ -10502,7 +10362,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387488556041674224}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.074, z: -0}
   m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 0.19999999}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -10616,8 +10476,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.58, y: 1.93, z: 1.25}
-  m_Center: {x: -0.18, y: 0.9, z: 0}
+  m_Size: {x: 0.98, y: 1.15, z: 0.7}
+  m_Center: {x: -0.13, y: 0.52, z: 0}
 --- !u!1 &1047347268156098929
 GameObject:
   m_ObjectHideFlags: 0
