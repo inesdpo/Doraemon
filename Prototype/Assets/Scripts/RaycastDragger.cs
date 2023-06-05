@@ -108,17 +108,9 @@ public class RaycastDragger : MonoBehaviour
                         Pivot = DraggingObject.parent;
 
 
-                        Pivot.parent = boxScene.transform;
-
-                        DraggingObject.localScale = WorldScale / 4;
-
                         IsDragging = true;
 
-                        //notificationText.SetText("While dragging, use two fingers to rotate");
-                        //imageComponent.sprite = spriteToChange;
                         notificationBox.SetActive(false);
-
-
 
                     }
                 }
@@ -126,8 +118,13 @@ public class RaycastDragger : MonoBehaviour
             }
 
 
-            if (IsDragging)
+            if (IsDragging && ObjectsList.GetComponent<ObjectsListScroll>().VerticalScroll)
             {
+
+
+                Pivot.parent = boxScene.transform;
+
+                DraggingObject.localScale = WorldScale / 4;
 
                 // zero out the rotation to align the object with the box 
 
