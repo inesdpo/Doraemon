@@ -8,8 +8,9 @@ using TMPro;
 
 public class RaycastDragger : MonoBehaviour
 {
-    private bool IsDragging = false;
+    public bool IsDragging = false;
     private bool IsSnapping = false;
+    public bool RotationState = false;
     private float t = 0.0f;
     private float rotationT = 0.0f;
     private float animationTime = 0.0f;
@@ -57,13 +58,13 @@ public class RaycastDragger : MonoBehaviour
     public GameObject notificationBox;
     public Image imageComponent;
     public Sprite spriteToChange;
+    public Button SaveButton;
+    public Button RotateButton;
 
-
+    private bool insideBounds = false;
     private bool canPlaceObject;
     private Vector3 extendsScaled = Vector3.zero;
     public GameObject BoxCast;
-    private Color Red = new Color(255, 54, 54, 122.5f);
-    private Color Green = new Color(2, 213, 110, 122.5f);
 
     public Material TransparentRed;
     public Material TransparentGreen;
@@ -74,14 +75,15 @@ public class RaycastDragger : MonoBehaviour
         InitialRotation = gameObject.transform.parent.localRotation;
         PivotInitialScale = gameObject.transform.parent.localScale;
         ObjectInitialScale = gameObject.transform.localScale;
+
+
+        RotateButton.onClick.AddListener(rotateObject);
     }
 
     void Update()
     {
 
-
-
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !RotationState)
         {
 
             justLetGo = false;
@@ -92,7 +94,7 @@ public class RaycastDragger : MonoBehaviour
             RaycastHit hit;
 
 
-            if (firstTouch == false)
+            if (!firstTouch)
             {
 
                 layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
@@ -104,6 +106,8 @@ public class RaycastDragger : MonoBehaviour
                     {
                         DraggingObject = hit.transform;
                         Pivot = DraggingObject.parent;
+
+                        Debug.Log(Pivot.name);
 
                         Pivot.parent = boxScene.transform;
 
@@ -118,8 +122,6 @@ public class RaycastDragger : MonoBehaviour
                 }
 
             }
-
-            firstTouch = true;
 
 
             if (IsDragging)
@@ -140,7 +142,7 @@ public class RaycastDragger : MonoBehaviour
                 Pivot.transform.position = ray.GetPoint(ray.origin.z * -2.0f);
 
 
-                // a new reay gets shot, if it hits the grid, the object snaps to that position
+                // a new ray gets shot, if it hits the grid, the object snaps to that position
 
                 layerMask = 1 << LayerMask.NameToLayer("Box");
 
@@ -156,62 +158,9 @@ public class RaycastDragger : MonoBehaviour
                 }
                 else { DraggingObject.localScale = WorldScale / 4; if (BoxCast.activeSelf) { BoxCast.SetActive(false); } }
 
-
-
-
-                objectMin = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.min;
-                objectMax = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.max;
-                boxMin = box.GetComponent<BoxCollider>().bounds.min;
-                boxMax = box.GetComponent<BoxCollider>().bounds.max;
-
-                canPlaceObject = true;
-
-                //Check if the object is inside the bounds
-
-                if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
-                {
-
-                    Debug.Log("I'm inside of the box's bounds");
-
-                    layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
-
-                    extendsScaled = new Vector3
-                        (
-                            DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
-                            DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
-                            DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
-                        );
-                    
-
-
-                    //Check if the object has other objects underneath
-
-                    RaycastHit[] AllHits = Physics.BoxCastAll(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1.0f, 0), Pivot.localRotation, 10.0f, layerMask);
-
-
-                    foreach (var objectHit in AllHits)
-                    {
-                        if (objectHit.collider.name != gameObject.name)
-                        {
-                            canPlaceObject = false;
-                            BoxCast.GetComponent<Renderer>().material = TransparentRed;
-
-                            Debug.Log("i have something underneath");
-                        }
-                    }
-
-                } else {
-                    canPlaceObject = false;
-                    BoxCast.GetComponent<Renderer>().material = TransparentRed;
-
-                    Debug.Log("I'm outside of the box");
-                }
-
-
             }
 
-
-
+           
         }
         else
         {
@@ -221,49 +170,105 @@ public class RaycastDragger : MonoBehaviour
             if (justLetGo == false && IsDragging == true)
             {
                 IsDragging = false;
-                BoxCast.SetActive(false);
 
-
-            if (canPlaceObject)
-            {
-
-                IsSnapping = true;
-
-
-                Pivot.parent = boxScene.transform;
-
-                LetGoPosition = Pivot.localPosition;
-                LetGoRotation = Pivot.localRotation;
-                LetGoScale = DraggingObject.localScale;
-
-                GoalPosition = LetGoPosition - new Vector3(0, 0.4f, 0);
-                GoalScale = LetGoScale;
-                GoalRotation = LetGoRotation;
-
-                notificationBox.SetActive(false);
-
-                return;
-
-            }
-                
-
-
-            Pivot.parent = ObjectsList.transform;
-
-            IsSnapping = true;
-
-            LetGoPosition = Pivot.localPosition;
-            LetGoRotation = Pivot.localRotation;
-            LetGoScale = DraggingObject.localScale;
-
-            GoalPosition = InitialPosition;
-            GoalScale = ObjectInitialScale;
-            GoalRotation = InitialRotation;
+                if(insideBounds) { RotationState = true; }
+                else { placeObject(); }
+                               
 
             }
 
             justLetGo = true;
         }
+
+
+        if(RotationState)
+        {
+            if (SaveButton.gameObject.activeSelf) {
+                SaveButton.gameObject.SetActive(false);
+                RotateButton.gameObject.SetActive(true);;
+            }
+
+            if(Input.touchCount > 0) { 
+
+                if (!firstTouch)
+                {
+
+                    Touch touch1 = Input.GetTouch(0);
+
+                    Ray confirmationRay = Camera.main.ScreenPointToRay(touch1.position);
+
+                    RaycastHit confirmationHit;
+
+                    if (Physics.Raycast(confirmationRay, out confirmationHit, 100) && confirmationHit.collider.name == DraggingObject.name)
+                    {
+                        Debug.Log("placement");
+                        placeObject();
+                    }
+                }
+            }
+                       
+
+        }
+                            
+        //check if the object can be placed
+
+        if (DraggingObject)
+        {
+            //Check if the object is inside the bounds
+
+            canPlaceObject = true;
+
+            objectMin = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.min;
+            objectMax = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.max;
+            boxMin = box.GetComponent<BoxCollider>().bounds.min;
+            boxMax = box.GetComponent<BoxCollider>().bounds.max;
+
+
+            if (objectMin.x > boxMin.x && objectMin.z > boxMin.z && objectMax.x < boxMax.x && objectMax.z < boxMax.z)
+            {
+
+                insideBounds = true;
+
+                //Debug.Log("I'm inside of the box's bounds");
+
+                layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
+
+                extendsScaled = new Vector3
+                    (
+                        DraggingObject.GetComponent<BoxCollider>().size.x * DraggingObject.localScale.x * Pivot.localScale.x,
+                        DraggingObject.GetComponent<BoxCollider>().size.y * DraggingObject.localScale.y * Pivot.localScale.y,
+                        DraggingObject.GetComponent<BoxCollider>().size.z * DraggingObject.localScale.z * Pivot.localScale.z
+                    );
+
+
+
+                //Check if the object has other objects underneath
+
+                RaycastHit[] AllHits = Physics.BoxCastAll(DraggingObject.position, extendsScaled * 0.5f, new Vector3(0, -1.0f, 0), Pivot.localRotation, 10.0f, layerMask);
+
+
+                foreach (var objectHit in AllHits)
+                {
+                    if (objectHit.collider.name != gameObject.name)
+                    {
+                        canPlaceObject = false;
+                        BoxCast.GetComponent<Renderer>().material = TransparentRed;
+
+                        Debug.Log("I have something underneath");
+                    }
+                }
+
+            }
+            else
+            {
+                canPlaceObject = false;
+                BoxCast.GetComponent<Renderer>().material = TransparentRed;
+                insideBounds = false;
+
+                Debug.Log("I'm outside of the box");
+            }
+        }
+
 
         if (IsSnapping)
         {
@@ -283,16 +288,73 @@ public class RaycastDragger : MonoBehaviour
             }
         }
 
+
+        //sets first touch
+
+        if(Input.touchCount > 0) { 
+
+            firstTouch = true;
+
+        }
+
     }
 
-    private void OnDrawGizmos()
-    {
-        if (IsDragging)
-        {
-            if (!canPlaceObject) { Gizmos.color = Color.red; }
-            else { Gizmos.color = Color.green; }
 
-            Gizmos.DrawWireCube(DraggingObject.position - new Vector3(0, 5.0f, 0), extendsScaled - new Vector3(0, extendsScaled.y, 0) + new Vector3(0, 10.0f, 0));
+    //rotate the object with the rotate button
+    void rotateObject()
+    {
+        Debug.Log("rotate");
+
+        if(Pivot) { 
+
+            Pivot.Rotate(Vector3.up, 90.0f, Space.World);
+        
         }
+
+    }
+
+
+    //place object inside of the box or back to the original position
+    void placeObject()
+    {
+        BoxCast.SetActive(false);
+        RotationState = false;
+
+        SaveButton.gameObject.SetActive(true);
+        RotateButton.gameObject.SetActive(false);
+
+        if (canPlaceObject)
+        {
+
+            IsSnapping = true;
+
+
+            Pivot.parent = boxScene.transform;
+
+            LetGoPosition = Pivot.localPosition;
+            LetGoRotation = Pivot.localRotation;
+            LetGoScale = DraggingObject.localScale;
+
+            GoalPosition = LetGoPosition - new Vector3(0, 0.4f, 0);
+            GoalScale = LetGoScale;
+            GoalRotation = LetGoRotation;
+
+            notificationBox.SetActive(false);
+
+            return;
+
+        }
+
+        Pivot.parent = ObjectsList.transform;
+
+        IsSnapping = true;
+
+        LetGoPosition = Pivot.localPosition;
+        LetGoRotation = Pivot.localRotation;
+        LetGoScale = DraggingObject.localScale;
+
+        GoalPosition = InitialPosition;
+        GoalScale = ObjectInitialScale;
+        GoalRotation = InitialRotation;
     }
 }

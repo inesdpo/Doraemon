@@ -17,7 +17,7 @@ public class GridSnap : MonoBehaviour
 
     Vector3 gridUnitCenter = Vector3.zero;
 
-    public GameObject grdiUnit;
+    public GameObject GridCube;
 
     public GameObject Grid;
 
@@ -48,7 +48,7 @@ public class GridSnap : MonoBehaviour
             {
                 Vector3 gridSnapPoint = new Vector3(gridUnitCenter.x + x * gridUnitWidth , gridUnitCenter.y , gridUnitCenter.z + z * gridUnitHeight);
 
-                GameObject gridUnit = Instantiate(grdiUnit, gridSnapPoint, new Quaternion());
+                GameObject gridUnit = Instantiate(GridCube, gridSnapPoint, new Quaternion());
                 gridUnit.transform.localScale = new Vector3(gridUnitWidth, 0.001f, gridUnitHeight) * 0.99f;
                 gridUnit.transform.parent = Grid.transform;
 
