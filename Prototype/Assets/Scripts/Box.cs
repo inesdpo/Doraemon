@@ -82,18 +82,15 @@ public class Box : MonoBehaviour
                     obj.SetActive(true);
                 }
 
+                firstTouch = true;
 
             }
-            else
-            {
-                firstTouch = false;
-            }
-
-
-            firstTouch = true;
-
-          
         }
 
+        else
+        {
+            firstTouch = false;
+        }
+             
     }
 }

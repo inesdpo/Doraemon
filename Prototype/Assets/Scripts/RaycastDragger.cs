@@ -154,7 +154,6 @@ public class RaycastDragger : MonoBehaviour
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
                     if (!BoxCast.activeSelf) { BoxCast.SetActive(true); }
-                    BoxCast.GetComponent<Renderer>().material = TransparentGreen;
                     Pivot.position = hit.point + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
 
@@ -221,13 +220,12 @@ public class RaycastDragger : MonoBehaviour
 
         if (DraggingObject)
         {
-
-
-            
+                                
 
             //Check if the object is inside the bounds
 
             canPlaceObject = true;
+            BoxCast.GetComponent<Renderer>().material = TransparentGreen;
 
             objectMin = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.min;
             objectMax = DraggingObject.gameObject.GetComponent<BoxCollider>().bounds.max;
