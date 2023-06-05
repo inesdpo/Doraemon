@@ -8,17 +8,17 @@ using TMPro;
 
 public class RaycastDragger : MonoBehaviour
 {
-    public bool IsDragging = false;
+    private bool IsDragging = false;
     private bool IsSnapping = false;
-    public bool RotationState = false;
+    private bool RotationState = false;
     private float t = 0.0f;
     private float rotationT = 0.0f;
     private float animationTime = 0.0f;
 
     public GameObject box;
     public GameObject ObjectsList;
-    private Transform DraggingObject = null;
-    private Transform Pivot = null;
+    public Transform DraggingObject = null;
+    public Transform Pivot = null;
     public Camera camera;
 
     private Vector3 objectMin = Vector3.zero;
@@ -54,7 +54,7 @@ public class RaycastDragger : MonoBehaviour
     private bool justLetGo = true;
     private bool firstTouch = false;
 
-    public TextMeshProUGUI notificationText;
+    //public TextMeshProUGUI notificationText;
     public GameObject notificationBox;
     public Image imageComponent;
     public Sprite spriteToChange;
@@ -115,8 +115,11 @@ public class RaycastDragger : MonoBehaviour
 
                         IsDragging = true;
 
-                        notificationText.SetText("While dragging, use two fingers to rotate");
-                        imageComponent.sprite = spriteToChange;
+                        //notificationText.SetText("While dragging, use two fingers to rotate");
+                        //imageComponent.sprite = spriteToChange;
+                        notificationBox.SetActive(false);
+
+                        Debug.Log(notificationBox.activeSelf);
 
                     }
                 }
@@ -150,7 +153,7 @@ public class RaycastDragger : MonoBehaviour
 
                 if (Physics.Raycast(gridRay, out hit, 100, layerMask))
                 {
-                    if (!BoxCast.activeSelf) { BoxCast.SetActive(true);}
+                    if (!BoxCast.activeSelf) { BoxCast.SetActive(true); }
                     BoxCast.GetComponent<Renderer>().material = TransparentGreen;
                     Pivot.position = hit.point + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
@@ -160,7 +163,7 @@ public class RaycastDragger : MonoBehaviour
 
             }
 
-           
+
         }
         else
         {
@@ -171,9 +174,9 @@ public class RaycastDragger : MonoBehaviour
             {
                 IsDragging = false;
 
-                if(insideBounds) { RotationState = true; }
+                if (insideBounds) { RotationState = true; }
                 else { placeObject(); }
-                               
+
 
             }
 
@@ -181,14 +184,18 @@ public class RaycastDragger : MonoBehaviour
         }
 
 
-        if(RotationState)
+        if (RotationState)
         {
-            if (SaveButton.gameObject.activeSelf) {
+            if (SaveButton.gameObject.activeSelf)
+            {
                 SaveButton.gameObject.SetActive(false);
-                RotateButton.gameObject.SetActive(true);;
+                RotateButton.gameObject.SetActive(true);
+                ObjectsList.SetActive(false);
+
             }
 
-            if(Input.touchCount > 0) { 
+            if (Input.touchCount > 0)
+            {
 
                 if (!firstTouch)
                 {
@@ -206,14 +213,18 @@ public class RaycastDragger : MonoBehaviour
                     }
                 }
             }
-                       
+
 
         }
-                            
+
         //check if the object can be placed
 
         if (DraggingObject)
         {
+
+
+            
+
             //Check if the object is inside the bounds
 
             canPlaceObject = true;
@@ -285,13 +296,15 @@ public class RaycastDragger : MonoBehaviour
                 t = 0;
                 IsSnapping = false;
                 DraggingObject = null;
+                Pivot = null;
             }
         }
 
 
         //sets first touch
 
-        if(Input.touchCount > 0) { 
+        if (Input.touchCount > 0)
+        {
 
             firstTouch = true;
 
@@ -305,10 +318,11 @@ public class RaycastDragger : MonoBehaviour
     {
         Debug.Log("rotate");
 
-        if(Pivot) { 
+        if (Pivot)
+        {
 
             Pivot.Rotate(Vector3.up, 90.0f, Space.World);
-        
+
         }
 
     }
@@ -322,6 +336,7 @@ public class RaycastDragger : MonoBehaviour
 
         SaveButton.gameObject.SetActive(true);
         RotateButton.gameObject.SetActive(false);
+        ObjectsList.SetActive(true);
 
         if (canPlaceObject)
         {
@@ -339,7 +354,6 @@ public class RaycastDragger : MonoBehaviour
             GoalScale = LetGoScale;
             GoalRotation = LetGoRotation;
 
-            notificationBox.SetActive(false);
 
             return;
 

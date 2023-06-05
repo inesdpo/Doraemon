@@ -9,8 +9,9 @@ public class Box : MonoBehaviour
     public Camera camera;
     int layerMask;
 
+   // public bool homeScreen = true;
     public GameObject notificationBox;
-    public TextMeshProUGUI notificationText;
+    //public TextMeshProUGUI notificationText;
     public GameObject saveButton;
     public bool boxClosed = true;
     public Image imageComponent;
@@ -31,9 +32,14 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*if (homeScreen)
+        {
+            notificationBox.SetActive(true);
+            homeScreen = false;
+        }*/
 
-        notificationBox.SetActive(true);
         box1.SetActive(true);
+        
 
        // mAnimator = GetComponent<Animator>();
 
@@ -59,7 +65,7 @@ public class Box : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
-                notificationText.SetText("Drag and drop the objects into the box");
+                //notificationText.SetText("Drag and drop the objects into the box");
                 imageComponent.sprite = spriteToChange;
                 Debug.Log("Open Box");
                 saveButton.SetActive(true);
@@ -67,8 +73,8 @@ public class Box : MonoBehaviour
                 plane.SetActive(true);
                 box1.SetActive(false);
                 box2.SetActive(true);
-                
-                
+
+
                 //newIcon.SetActive(false);
 
                 foreach (var obj in draggableObjects)
@@ -76,20 +82,18 @@ public class Box : MonoBehaviour
                     obj.SetActive(true);
                 }
 
-               // if( mAnimator != null )
-               // {
-                   
-                    //mAnimator.SetTrigger("TrOpen");
-                    //Debug.Log("open box");
-                //}
-                
 
-                
             }
+            else
+            {
+                firstTouch = false;
+            }
+
 
             firstTouch = true;
 
-        } else { firstTouch = false; }
+          
+        }
 
     }
 }

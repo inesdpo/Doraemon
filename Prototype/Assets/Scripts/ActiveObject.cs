@@ -19,13 +19,17 @@ public class ActiveObject : MonoBehaviour
 
         foreach (var obj in Objects)
         {
-            if (obj.GetComponent<RaycastDragger>().IsDragging)
+            if (obj.GetComponent<RaycastDragger>().DraggingObject)
             {
-                foreach(var otherobjects in Objects)
+
+                Debug.Log(obj.name);
+
+                foreach (var otherobjects in Objects)
                 {
                     if (otherobjects != obj)
                     {
-                       //set script to false 
+                        otherobjects.GetComponent<RaycastDragger>().DraggingObject = null;
+                        otherobjects.GetComponent<RaycastDragger>().Pivot = null;
                     }
                 }
             }
