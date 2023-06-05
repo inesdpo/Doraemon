@@ -107,7 +107,6 @@ public class RaycastDragger : MonoBehaviour
                         DraggingObject = hit.transform;
                         Pivot = DraggingObject.parent;
 
-                        Debug.Log(Pivot.name);
 
                         Pivot.parent = boxScene.transform;
 
@@ -119,7 +118,7 @@ public class RaycastDragger : MonoBehaviour
                         //imageComponent.sprite = spriteToChange;
                         notificationBox.SetActive(false);
 
-                        Debug.Log(notificationBox.activeSelf);
+
 
                     }
                 }
@@ -207,7 +206,6 @@ public class RaycastDragger : MonoBehaviour
 
                     if (Physics.Raycast(confirmationRay, out confirmationHit, 100) && confirmationHit.collider.name == DraggingObject.name)
                     {
-                        Debug.Log("placement");
                         placeObject();
                     }
                 }
@@ -220,7 +218,7 @@ public class RaycastDragger : MonoBehaviour
 
         if (DraggingObject)
         {
-                                
+
 
             //Check if the object is inside the bounds
 
@@ -263,7 +261,7 @@ public class RaycastDragger : MonoBehaviour
                         canPlaceObject = false;
                         BoxCast.GetComponent<Renderer>().material = TransparentRed;
 
-                        Debug.Log("I have something underneath");
+                        //Debug.Log("I have something underneath");
                     }
                 }
 
@@ -274,7 +272,7 @@ public class RaycastDragger : MonoBehaviour
                 BoxCast.GetComponent<Renderer>().material = TransparentRed;
                 insideBounds = false;
 
-                Debug.Log("I'm outside of the box");
+                //Debug.Log("I'm outside of the box");
             }
         }
 
@@ -314,8 +312,6 @@ public class RaycastDragger : MonoBehaviour
     //rotate the object with the rotate button
     void rotateObject()
     {
-        Debug.Log("rotate");
-
         if (Pivot)
         {
 

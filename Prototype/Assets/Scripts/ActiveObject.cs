@@ -22,8 +22,6 @@ public class ActiveObject : MonoBehaviour
             if (obj.GetComponent<RaycastDragger>().DraggingObject)
             {
 
-                Debug.Log(obj.name);
-
                 foreach (var otherobjects in Objects)
                 {
                     if (otherobjects != obj)
