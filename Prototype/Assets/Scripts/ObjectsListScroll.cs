@@ -65,7 +65,7 @@ public class ObjectsListScroll : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(touch.position);
                 RaycastHit[] hits = Physics.RaycastAll(ray, 100);
 
-                Debug.Log("first touch");
+                //Debug.Log("first touch");
 
 
                 foreach (var hit in hits)
@@ -127,7 +127,7 @@ public class ObjectsListScroll : MonoBehaviour
                         DraggingObject.GetComponent<RaycastDragger>().DraggingObject = DraggingObject;
                         DraggingObject.GetComponent<RaycastDragger>().Pivot = Pivot;
 
-                        Debug.Log("Dragging an Object");
+                        //Debug.Log("Dragging an Object");
 
                     }
                 }
@@ -151,7 +151,7 @@ public class ObjectsListScroll : MonoBehaviour
                 if (GoalListPositionX < rightLimit) { GoalListPositionX = rightLimit; }
                 else if (GoalListPositionX > leftLimit) { GoalListPositionX = leftLimit; }
 
-                Debug.Log("current position: " + newListPositionX + "; difference: " + TouchDiff + "; goal position: " + GoalListPositionX);
+                //Debug.Log("current position: " + newListPositionX + "; difference: " + TouchDiff + "; goal position: " + GoalListPositionX);
 
             }
 
