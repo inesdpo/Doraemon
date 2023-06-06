@@ -4453,7 +4453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 923965826}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.09, z: 0.3120007}
+  m_LocalPosition: {x: 0, y: 0.089999996, z: 0.3120011}
   m_LocalScale: {x: 0.8500001, y: 1.6000001, z: 0.49999994}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7435,8 +7435,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729007569}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0.54}
-  m_LocalScale: {x: 0.62, y: 1.62, z: 0.5}
+  m_LocalPosition: {x: 0.02, y: 0.01, z: 0.23}
+  m_LocalScale: {x: 0.5102554, y: 1.3449694, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8581386802387129055}
@@ -10625,7 +10625,7 @@ MonoBehaviour:
   Pivot: {fileID: 0}
   camera: {fileID: 1264538763}
   boxScene: {fileID: 793467354}
-  WorldScale: {x: 1.7, y: 1.7, z: 1.7}
+  WorldScale: {x: 2.2, y: 2.2, z: 2.2}
   WorldRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
   easeCurve:
     serializedVersion: 2
