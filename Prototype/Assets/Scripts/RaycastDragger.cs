@@ -61,9 +61,9 @@ public class RaycastDragger : MonoBehaviour
     public Button SaveButton;
     public Button RotateButton;
 
-    private bool rayHitsBox = false;
+    public bool rayHitsBox = false;
     private bool insideBounds = false;
-    private bool canPlaceObject;
+    public bool canPlaceObject;
     private Vector3 extendsScaled = Vector3.zero;
     public GameObject BoxCast;
 
@@ -173,7 +173,7 @@ public class RaycastDragger : MonoBehaviour
             {
                 IsDragging = false;
 
-                if (insideBounds && rayHitsBox) { RotationState = true; rayHitsBox = false; }
+                if (insideBounds && rayHitsBox) { RotationState = true; }
                 else { placeObject(); }
 
 
@@ -274,7 +274,7 @@ public class RaycastDragger : MonoBehaviour
 
                 //Debug.Log("I'm outside of the box");
             }
-        }
+        } else { canPlaceObject = false;  }
 
 
         if (IsSnapping)
