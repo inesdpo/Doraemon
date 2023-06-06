@@ -41,7 +41,8 @@ public class ObjectsListScroll : MonoBehaviour
         ObjectsList = gameObject.transform;
         newListPositionX = ObjectsList.localPosition.x;
 
-        rightLimit = gameObject.transform.position.x - gameObject.GetComponent<BoxCollider>().size.x + 0.36f;
+        rightLimit = gameObject.transform.position.x - gameObject.GetComponent<BoxCollider>().size.x + 0.26f;
+        Debug.Log(rightLimit);
         leftLimit = gameObject.transform.position.x;
 
     }
