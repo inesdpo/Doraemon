@@ -24,6 +24,7 @@ public class ObjectsListScroll : MonoBehaviour
 
     private bool MayWantToGrab = false;
     private bool HorizontalScroll = false;
+    public bool VerticalScroll = false;
 
     private Transform DraggingObject = null;
     private Transform Pivot = null;
@@ -33,7 +34,6 @@ public class ObjectsListScroll : MonoBehaviour
 
     private Transform ObjectsList = null;
 
-    public Camera ARCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +65,7 @@ public class ObjectsListScroll : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(touch.position);
                 RaycastHit[] hits = Physics.RaycastAll(ray, 100);
 
-                Debug.Log("first touch");
+                //Debug.Log("first touch");
 
 
                 foreach (var hit in hits)
@@ -76,6 +76,7 @@ public class ObjectsListScroll : MonoBehaviour
                         TouchPosition = InitialTouchPosition;
 
                         HorizontalScroll = true;
+                        VerticalScroll = false;
                         IsScrolling = false;
                     }
                     else if (hit.collider.gameObject.tag == "Draggable Object")
@@ -83,7 +84,6 @@ public class ObjectsListScroll : MonoBehaviour
                         MayWantToGrab = true;
                         DraggingObject = hit.collider.gameObject.transform;
                         Pivot = DraggingObject.parent;
-
                     }
                 }
             }
@@ -122,17 +122,14 @@ public class ObjectsListScroll : MonoBehaviour
 
                         HorizontalScroll = false;
                         MayWantToGrab = false;
+                        VerticalScroll = true;
 
                         DraggingObject.GetComponent<RaycastDragger>().DraggingObject = DraggingObject;
                         DraggingObject.GetComponent<RaycastDragger>().Pivot = Pivot;
 
-                        Debug.Log("Dragging an Object");
+                        //Debug.Log("Dragging an Object");
 
                     }
-                }
-                else
-                {
-                    VerticalScrollConfirmation--;
                 }
 
 
@@ -154,7 +151,7 @@ public class ObjectsListScroll : MonoBehaviour
                 if (GoalListPositionX < rightLimit) { GoalListPositionX = rightLimit; }
                 else if (GoalListPositionX > leftLimit) { GoalListPositionX = leftLimit; }
 
-                Debug.Log("current position: " + newListPositionX + "; difference: " + TouchDiff + "; goal position: " + GoalListPositionX);
+                //Debug.Log("current position: " + newListPositionX + "; difference: " + TouchDiff + "; goal position: " + GoalListPositionX);
 
             }
 
@@ -164,6 +161,7 @@ public class ObjectsListScroll : MonoBehaviour
             firstTouch = false;
             MayWantToGrab = false;
             HorizontalScroll = false;
+            VerticalScroll = false;
         }
 
         if (IsScrolling)

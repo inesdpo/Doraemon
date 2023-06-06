@@ -61,6 +61,7 @@ public class RaycastDragger : MonoBehaviour
     public Button SaveButton;
     public Button RotateButton;
 
+    private bool rayHitsBox = false;
     private bool insideBounds = false;
     private bool canPlaceObject;
     private Vector3 extendsScaled = Vector3.zero;
@@ -108,17 +109,9 @@ public class RaycastDragger : MonoBehaviour
                         Pivot = DraggingObject.parent;
 
 
-                        Pivot.parent = boxScene.transform;
-
-                        DraggingObject.localScale = WorldScale / 4;
-
                         IsDragging = true;
 
-                        //notificationText.SetText("While dragging, use two fingers to rotate");
-                        //imageComponent.sprite = spriteToChange;
                         notificationBox.SetActive(false);
-
-
 
                     }
                 }
@@ -126,8 +119,13 @@ public class RaycastDragger : MonoBehaviour
             }
 
 
-            if (IsDragging)
+            if (IsDragging && ObjectsList.GetComponent<ObjectsListScroll>().VerticalScroll)
             {
+
+
+                Pivot.parent = boxScene.transform;
+
+                DraggingObject.localScale = WorldScale / 4;
 
                 // zero out the rotation to align the object with the box 
 
@@ -155,9 +153,12 @@ public class RaycastDragger : MonoBehaviour
                     if (!BoxCast.activeSelf) { BoxCast.SetActive(true); }
                     Pivot.position = hit.point + new Vector3(0, 0.5f, 0);
                     DraggingObject.localScale = WorldScale;
+                    rayHitsBox = true;
+
+                    Debug.Log("I'm hitting the box with the ray");
 
                 }
-                else { DraggingObject.localScale = WorldScale / 4; if (BoxCast.activeSelf) { BoxCast.SetActive(false); } }
+                else { DraggingObject.localScale = WorldScale / 4; if (BoxCast.activeSelf) { BoxCast.SetActive(false); rayHitsBox = false; } }
 
             }
 
@@ -172,7 +173,7 @@ public class RaycastDragger : MonoBehaviour
             {
                 IsDragging = false;
 
-                if (insideBounds) { RotationState = true; }
+                if (insideBounds && rayHitsBox) { RotationState = true; rayHitsBox = false; }
                 else { placeObject(); }
 
 
@@ -216,9 +217,8 @@ public class RaycastDragger : MonoBehaviour
 
         //check if the object can be placed
 
-        if (DraggingObject)
+        if (DraggingObject && rayHitsBox)
         {
-
 
             //Check if the object is inside the bounds
 
@@ -236,7 +236,7 @@ public class RaycastDragger : MonoBehaviour
 
                 insideBounds = true;
 
-                //Debug.Log("I'm inside of the box's bounds");
+                Debug.Log("I'm inside of the box's bounds");
 
                 layerMask = 1 << LayerMask.NameToLayer("Draggable Objects");
 
@@ -261,7 +261,7 @@ public class RaycastDragger : MonoBehaviour
                         canPlaceObject = false;
                         BoxCast.GetComponent<Renderer>().material = TransparentRed;
 
-                        //Debug.Log("I have something underneath");
+                        Debug.Log("I have something underneath");
                     }
                 }
 
