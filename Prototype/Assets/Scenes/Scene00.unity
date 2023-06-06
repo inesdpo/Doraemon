@@ -3956,8 +3956,8 @@ MonoBehaviour:
   Pivot: {fileID: 0}
   camera: {fileID: 1264538763}
   boxScene: {fileID: 793467354}
-  WorldScale: {x: 40, y: 40, z: 40}
-  WorldRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+  WorldScale: {x: 2, y: 2, z: 2}
+  WorldRotation: {x: 0, y: 0, z: 0, w: 1}
   easeCurve:
     serializedVersion: 2
     m_Curve:
@@ -4938,6 +4938,13 @@ MonoBehaviour:
   - {fileID: 793001535}
   - {fileID: 899878934}
   - {fileID: 1830929768}
+  - {fileID: 918201425}
+  - {fileID: 1458257577}
+  - {fileID: 202881466}
+  - {fileID: 230326450}
+  - {fileID: 1384654788}
+  - {fileID: 1963287623}
+  - {fileID: 1355316264}
 --- !u!114 &1061715563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14794,8 +14801,8 @@ MonoBehaviour:
   Pivot: {fileID: 0}
   camera: {fileID: 1264538763}
   boxScene: {fileID: 793467354}
-  WorldScale: {x: 3, y: 3, z: 3}
-  WorldRotation: {x: 0, y: 0, z: 0, w: 1}
+  WorldScale: {x: 2.5, y: 2.5, z: 2.5}
+  WorldRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
   easeCurve:
     serializedVersion: 2
     m_Curve:
