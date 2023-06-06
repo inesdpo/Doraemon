@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class Result
 {
@@ -26,7 +27,7 @@ public class ExportPNGOnCamera : MonoBehaviour
     void Start()
     {
 
-        RenderTexture rt = Selection.activeObject as RenderTexture;
+        //RenderTexture rt = Selection.activeObject as RenderTexture;
 
 
     }
@@ -71,10 +72,17 @@ public class ExportPNGOnCamera : MonoBehaviour
         bytes = tex.EncodeToPNG();
 
         i++;
-        string path = Application.dataPath + i + ".png";
-        System.IO.File.WriteAllBytes(path, bytes);
-        AssetDatabase.ImportAsset(path);
+        //string path = Application.dataPath + i + ".png";
+        string path = Application.persistentDataPath + i + ".png";
+        ScreenCapture.CaptureScreenshot(path);
+        // System.IO.File.WriteAllBytes(path, bytes);
+        //AssetDatabase.ImportAsset(path);
         Debug.Log("Saved to " + path);
+
+        
+        ScreenCapture.CaptureScreenshotIntoRenderTexture(rt);
+        AsyncGPUReadback.Request(rt, 0, TextureFormat.RGBA32);
+
 
         result.texture = tex;
 

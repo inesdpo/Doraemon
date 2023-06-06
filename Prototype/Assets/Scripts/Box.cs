@@ -19,6 +19,8 @@ public class Box : MonoBehaviour
     public GameObject box2;
     public GameObject box1;
 
+    public GameObject boxFrame;
+
     private bool firstTouch = false;
 
     //public GameObject newIcon;
@@ -37,18 +39,18 @@ public class Box : MonoBehaviour
             notificationBox.SetActive(true);
             homeScreen = false;
         }*/
-
+        
         box1.SetActive(true);
         
 
-       // mAnimator = GetComponent<Animator>();
+        // mAnimator = GetComponent<Animator>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+       
 
         if (Input.touchCount > 0 && firstTouch == false)
         {
@@ -65,6 +67,7 @@ public class Box : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
+                //notificationBox.SetActive(true);
                 //notificationText.SetText("Drag and drop the objects into the box");
                 imageComponent.sprite = spriteToChange;
                 Debug.Log("Open Box");
@@ -74,6 +77,11 @@ public class Box : MonoBehaviour
                 box1.SetActive(false);
                 box2.SetActive(true);
 
+                
+                if(box2 == true)
+                {
+                    boxFrame.SetActive(false);
+                }
 
                 //newIcon.SetActive(false);
 
