@@ -21,6 +21,7 @@ public class Box : MonoBehaviour
 
     public GameObject boxFrame;
 
+
     private bool firstTouch = false;
 
     //public GameObject newIcon;
@@ -29,8 +30,9 @@ public class Box : MonoBehaviour
 
     public GameObject[] draggableObjects;
 
-    //public Animator mAnimator;
 
+    //public Animator mAnimator;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +52,9 @@ public class Box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
+        if (!boxFrame.activeSelf && boxClosed) { notificationBox.SetActive(true); }
+        if (boxFrame.activeSelf) { saveButton.SetActive(false); }
 
         if (Input.touchCount > 0 && firstTouch == false)
         {
@@ -65,6 +69,7 @@ public class Box : MonoBehaviour
 
             
 
+
             if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
                 //notificationBox.SetActive(true);
@@ -78,10 +83,7 @@ public class Box : MonoBehaviour
                 box2.SetActive(true);
 
                 
-                if(box2 == true)
-                {
-                    boxFrame.SetActive(false);
-                }
+                
 
                 //newIcon.SetActive(false);
 

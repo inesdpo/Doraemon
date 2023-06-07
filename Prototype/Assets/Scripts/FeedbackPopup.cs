@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.VisualScripting.Metadata;
+//using static Unity.VisualScripting.Metadata;
 
 public class FeedbackPopup : MonoBehaviour
 {
@@ -27,10 +27,6 @@ public class FeedbackPopup : MonoBehaviour
 
         Transform parentTransform = transform;
         int children = parentTransform.childCount;
-
-        Debug.Log(children);
-
-
         if (children >= 6)
         {
             spriteGood.SetActive(true);
