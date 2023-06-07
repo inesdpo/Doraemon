@@ -21,6 +21,24 @@ public class Box : MonoBehaviour
 
     public GameObject boxFrame;
 
+    private bool IsOpening;
+
+    public GameObject[] LeftSide;
+    public GameObject[] RightSide;
+
+    private Vector3 RotationLeftX = new Vector3(-90, 0, 0);
+    private Vector3 RotationRightX = new Vector3(-90, 0, 0);
+
+    private Vector3 StartingRotationLeft;
+    private Vector3 StartingRotationRight;
+
+    private Vector3 GoalRotationLeft;
+    private Vector3 GoalRotationRight;
+
+    private float t = 0.0f;
+
+    public AnimationCurve easeCurve;
+
 
     private bool firstTouch = false;
 
@@ -36,14 +54,29 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*if (homeScreen)
-        {
-            notificationBox.SetActive(true);
-            homeScreen = false;
-        }*/
+        
         
         box1.SetActive(true);
-        
+
+
+        foreach (var obj in LeftSide)
+        {
+            StartingRotationLeft = obj.transform.localEulerAngles;
+        }
+
+        foreach (var obj in RightSide)
+        {
+            StartingRotationRight = obj.transform.localEulerAngles;
+        }
+
+
+        GoalRotationLeft = StartingRotationLeft + RotationLeftX;
+        GoalRotationRight = StartingRotationRight + RotationRightX;
+
+
+        Debug.Log(GoalRotationLeft);
+        Debug.Log(GoalRotationRight);
+
 
         // mAnimator = GetComponent<Animator>();
 
@@ -68,7 +101,9 @@ public class Box : MonoBehaviour
             layerMask = 1 << LayerMask.NameToLayer("Box");
 
             
+            //transform.eulerAngles
 
+            //Quaternion.Euler()
 
             if (Physics.Raycast(ray, out hit, 100, layerMask) && boxClosed)
             {
@@ -82,7 +117,7 @@ public class Box : MonoBehaviour
                 box1.SetActive(false);
                 box2.SetActive(true);
 
-                
+                IsOpening = true;
                 
 
                 //newIcon.SetActive(false);
@@ -100,6 +135,36 @@ public class Box : MonoBehaviour
         else
         {
             firstTouch = false;
+        }
+
+        if(IsOpening)
+        {
+
+            t += Time.deltaTime / 2;
+                        
+
+            float animationProgress = easeCurve.Evaluate(t);
+
+            
+
+            foreach( var obj in LeftSide )
+            {
+                Vector3 LeftSideRotation = Vector3.Lerp(StartingRotationLeft, GoalRotationLeft, animationProgress);
+
+                obj.transform.localEulerAngles= LeftSideRotation;
+
+            }
+
+            foreach (var obj in RightSide)
+            {
+                Vector3 RightSideRotation = Vector3.Lerp(StartingRotationRight, GoalRotationRight, animationProgress);
+
+                obj.transform.localEulerAngles = RightSideRotation;
+
+            }
+
+            if (t >= 1) { IsOpening = false; }
+
         }
              
     }
